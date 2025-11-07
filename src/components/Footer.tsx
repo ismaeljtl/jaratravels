@@ -14,21 +14,16 @@ const Footer = () => {
 
           <div className="flex gap-4">
             <a 
-              href="#" 
-              className="bg-primary/10 hover:bg-primary/20 p-2 rounded-full transition-colors"
-              aria-label="Facebook"
-            >
-              <Facebook className="w-5 h-5 text-primary" />
-            </a>
-            <a 
-              href="#" 
+              href="https://www.instagram.com/jaraatw" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-secondary/10 hover:bg-secondary/20 p-2 rounded-full transition-colors"
               aria-label="Instagram"
             >
               <Instagram className="w-5 h-5 text-secondary" />
             </a>
             <a 
-              href="mailto:info@jaratravels.com" 
+              href="mailto:jaratravels@hotmail.com" 
               className="bg-adventure/10 hover:bg-adventure/20 p-2 rounded-full transition-colors"
               aria-label="Email"
             >
