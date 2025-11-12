@@ -130,17 +130,6 @@ const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-border/50">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-2">Horário de Atendimento</h3>
-                <p className="text-sm text-muted-foreground">
-                  Terça a Sexta: 09h30 - 19h00<br />
-                  Sábado: 10h00 - 14h00<br />
-                  Domingo: Por marcação<br />
-                  Segunda: Fechado
-                </p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
