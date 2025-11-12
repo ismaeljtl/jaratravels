@@ -13,7 +13,7 @@ const About = () => {
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
               A JaraTravels é especializada em criar experiências de viagem únicas e inesquecíveis. 
-              Trabalhamos com pequenos grupos de forma intimista e mais local, sem fazer turismo de massas.
+              Trabalhamos com pequenos grupos de forma intimista e mais local.
               Com anos de experiência no setor do turismo, oferecemos serviços de qualidade superior 
               e atenção personalizada a cada cliente.
             </p>
