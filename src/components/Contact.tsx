@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -108,28 +108,15 @@ const Contact = () => {
 
             <Card className="border-border/50">
               <CardContent className="flex items-start gap-4 pt-6">
-                <div className="bg-secondary/10 p-3 rounded-lg">
-                  <Phone className="w-6 h-6 text-secondary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Telefone</h3>
-                  <p className="text-muted-foreground">+351 XXX XXX XXX</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border/50">
-              <CardContent className="flex items-start gap-4 pt-6">
                 <div className="bg-adventure/10 p-3 rounded-lg">
                   <MapPin className="w-6 h-6 text-adventure" />
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Localização</h3>
-                  <p className="text-muted-foreground">Portugal</p>
+                  <p className="text-muted-foreground">Seixal, Portugal</p>
                 </div>
               </CardContent>
             </Card>
-
           </div>
         </div>
       </div>
