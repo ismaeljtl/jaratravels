@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Instagram } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -102,6 +102,25 @@ const Contact = () => {
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
                   <p className="text-muted-foreground">jaratravels@hotmail.com</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/50">
+              <CardContent className="flex items-start gap-4 pt-6">
+                <div className="bg-secondary/10 p-3 rounded-lg">
+                  <Instagram className="w-6 h-6 text-secondary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Instagram</h3>
+                  <a 
+                    href="https://www.instagram.com/jaraatw" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-secondary transition-colors"
+                  >
+                    @jaraatw
+                  </a>
                 </div>
               </CardContent>
             </Card>
