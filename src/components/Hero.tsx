@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/seixal-bay.jpg";
 
 const Hero = () => {
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const navigate = useNavigate();
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -25,7 +24,7 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
           <Button 
             size="lg" 
-            onClick={scrollToContact}
+            onClick={() => navigate("/reservas")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           >
             Reserve Agora
