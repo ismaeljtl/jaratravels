@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Check, Calendar, Users, MapPin } from "lucide-react";
+import { ArrowLeft, Check, Calendar, Users, MapPin, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -144,6 +144,32 @@ const Booking = () => {
       </header>
 
       <div className="container mx-auto px-4 py-12">
+        {/* GetYourGuide CTA */}
+        <div className="max-w-6xl mx-auto mb-8">
+          <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5">
+            <CardContent className="pt-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold mb-2 text-foreground">
+                    Reserva Instantânea via GetYourGuide
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Reserve agora o nosso tour guiado a pé pelo Seixal com degustação de pastel de nata através da GetYourGuide - confirmação imediata!
+                  </p>
+                </div>
+                <Button
+                  size="lg"
+                  onClick={() => window.open("https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D", "_blank")}
+                  className="bg-primary hover:bg-primary/90 whitespace-nowrap"
+                >
+                  Reservar no GetYourGuide
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Services Info */}
           <div className="space-y-6">
@@ -357,6 +383,21 @@ const Booking = () => {
                   <p className="text-xs text-muted-foreground text-center">
                     Ao enviar, você concorda com nossos termos de serviço e política de privacidade
                   </p>
+
+                  <div className="pt-4 border-t border-border/50">
+                    <p className="text-sm text-center text-muted-foreground mb-3">
+                      Ou reserve diretamente via GetYourGuide
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => window.open("https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D", "_blank")}
+                    >
+                      GetYourGuide
+                      <ExternalLink className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
                 </form>
               </CardContent>
             </Card>
