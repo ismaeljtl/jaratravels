@@ -22,55 +22,133 @@ const bookingSchema = z.object({
 
 const services = [
   {
-    id: "tour-lisboa",
-    name: "Tour pela Lisboa Histórica",
-    description: "Explore os bairros históricos de Lisboa",
-    price: "45€",
-    duration: "4 horas",
+    id: "tour-villa-gardens",
+    name: "Tour Villa & Gardens",
+    description: "Guided walk through beautiful gardens and historic villa of Seixal",
+    price: "30€",
+    duration: "2h30",
     included: [
-      "Guia turístico profissional",
-      "Transporte durante o tour",
-      "Entrada em monumentos",
-      "Degustação de pastéis de nata"
+      "Walking tour City center",
+      "Visit Quinta da Fidalga",
+      "Insurance",
+      "Offer Pastel de Nata typical Portuguese dessert"
     ]
   },
   {
-    id: "passeio-tejo",
-    name: "Passeio pelo Rio Tejo",
-    description: "Navegue pelas águas do Tejo",
+    id: "tour-instax-photos",
+    name: "Tour Instax Photos",
+    description: "Take instant polaroids while discovering local gems",
+    price: "20€",
+    duration: "1h30",
+    included: [
+      "Tourist Guide",
+      "Map of Seixal",
+      "Pastry Pastel de nata",
+      "Photo accessories",
+      "Instax Camera (up to 4 photos per person in locations of your choice)"
+    ]
+  },
+  {
+    id: "seixal-medieval",
+    name: "Seixal Medieval",
+    description: "Step back in time with a medieval-themed tour",
     price: "35€",
-    duration: "2 horas",
+    duration: "2h",
     included: [
-      "Barco privado ou partilhado",
-      "Guia experiente",
-      "Bebidas incluídas",
-      "Seguro"
+      "Medieval themed guided tour",
+      "Historical insights",
+      "Local stories and legends"
     ]
   },
   {
-    id: "evento-fado",
-    name: "Noite de Fado Tradicional",
-    description: "Experiência autêntica de fado",
-    price: "55€",
-    duration: "3 horas",
+    id: "boatrip-seixal",
+    name: "Boatrip Seixal",
+    description: "Sail through the beautiful Seixal Bay, aboard one of the typical boats of the past. Visit Corroios Tide Mill",
+    price: "50€",
+    duration: "3h",
     included: [
-      "Jantar tradicional português",
-      "Show de fado ao vivo",
-      "Bebida incluída",
-      "Transporte de/para hotel"
+      "Welcome Drink",
+      "Water and snacks on board",
+      "Visit to Corroios Tide Mill",
+      "Traditional boat experience"
     ]
   },
   {
-    id: "tour-sintra",
-    name: "Tour a Sintra e Cascais",
-    description: "Descubra os palácios de Sintra",
-    price: "65€",
-    duration: "8 horas",
+    id: "sesimbra-emotion",
+    name: "Sesimbra Emotion",
+    description: "Unique experience in Sado River to watch dolphins",
+    price: "60€",
+    duration: "3h",
     included: [
-      "Transporte confortável",
-      "Guia certificado",
-      "Entradas nos palácios",
-      "Almoço incluído"
+      "Dolphin watching experience",
+      "Expert guide",
+      "Safety equipment",
+      "Scenic river views"
+    ]
+  },
+  {
+    id: "setubal-arrabida",
+    name: "Setúbal & Arrábida",
+    description: "Arrábida is a protected natural reserve classified by UNESCO… unique landscape and typical lunch fried cuttlefish",
+    price: "80€",
+    duration: "4h",
+    included: [
+      "Visit to Arrábida Natural Park",
+      "UNESCO protected reserve tour",
+      "Typical lunch with fried cuttlefish",
+      "Scenic landscape views"
+    ]
+  },
+  {
+    id: "azeitao-vineyard",
+    name: "Azeitão Vineyard Tour & Wine Tasting",
+    description: "Quick getaway in small town called Azeitão, one of the most important wine regions in Portugal… delicious pastry",
+    price: "80€",
+    duration: "4h",
+    included: [
+      "Vineyard tour",
+      "Wine tasting session",
+      "Visit to Azeitão town",
+      "Delicious local pastry"
+    ]
+  },
+  {
+    id: "almada-cristo-rei",
+    name: "Almada",
+    description: "Cristo Rei with 110 meters, high viewing platform, panoramic view of Lisbon and the 25 de Abril bridge",
+    price: "60€",
+    fullDayPrice: "120€",
+    duration: "4h",
+    included: [
+      "Visit to Cristo Rei monument",
+      "110m high viewing platform",
+      "Panoramic view of Lisbon",
+      "View of 25 de Abril bridge"
+    ]
+  },
+  {
+    id: "medieval-swordsmanship",
+    name: "Medieval Swordsmanship",
+    description: "Learn the art of medieval sword fighting",
+    price: "Consultar",
+    duration: "A definir",
+    included: [
+      "Sword fighting lessons",
+      "Medieval equipment",
+      "Expert instruction"
+    ]
+  },
+  {
+    id: "white-gold-route",
+    name: "White Gold Route (Alcochete)",
+    description: "Beautiful landscape under Tagus River, walk by the sea, nature, history, customs",
+    price: "60€",
+    duration: "4h",
+    included: [
+      "Guided walk by the sea",
+      "Tagus River landscapes",
+      "Nature and history tour",
+      "Local customs and traditions"
     ]
   }
 ];
