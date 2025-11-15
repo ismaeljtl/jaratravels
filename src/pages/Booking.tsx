@@ -55,9 +55,9 @@ const services = [
     price: "35€",
     duration: "2h",
     included: [
-      "Guia Turístico",
-      "Instrutores da espada negra HEMA Study Group",
-      "Equipamentos para a prática da actividade"
+      "Tourist Guide",
+      "HEMA Study Group Black Sword Instructors",
+      "Equipment for the activity"
     ]
   },
   {
