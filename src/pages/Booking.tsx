@@ -55,9 +55,9 @@ const services = [
     price: "35€",
     duration: "2h",
     included: [
-      "Medieval themed guided tour",
-      "Historical insights",
-      "Local stories and legends"
+      "Guia Turístico",
+      "Instrutores da espada negra HEMA Study Group",
+      "Equipamentos para a prática da actividade"
     ]
   },
   {
@@ -67,10 +67,12 @@ const services = [
     price: "50€",
     duration: "3h",
     included: [
-      "Welcome Drink",
-      "Water and snacks on board",
+      "Welcome Drink, water and snacks on board",
+      "Map of Seixal",
       "Visit to Corroios Tide Mill",
-      "Traditional boat experience"
+      "Boatrip by Chigadinho",
+      "Observation of local fauna, flora and flamingos",
+      "Tourist Guide"
     ]
   },
   {
@@ -80,10 +82,11 @@ const services = [
     price: "60€",
     duration: "3h",
     included: [
-      "Dolphin watching experience",
-      "Expert guide",
-      "Safety equipment",
-      "Scenic river views"
+      "Observation of Dolphins, birds, fauna and flora",
+      "Visit one of the best beaches of Sesimbra",
+      "Pit stop for diving in crystal clear waters",
+      "Free Afternoon Enjoying Beach",
+      "Transportation can be included"
     ]
   },
   {
@@ -93,10 +96,12 @@ const services = [
     price: "80€",
     duration: "4h",
     included: [
-      "Visit to Arrábida Natural Park",
-      "UNESCO protected reserve tour",
-      "Typical lunch with fried cuttlefish",
-      "Scenic landscape views"
+      "Private Guide",
+      "Transportation",
+      "Water free",
+      "Insurance",
+      "Lunch in Restaurant at Setúbal (not included)",
+      "Walk Tour at Downtown Setúbal"
     ]
   },
   {
@@ -106,10 +111,12 @@ const services = [
     price: "80€",
     duration: "4h",
     included: [
-      "Vineyard tour",
-      "Wine tasting session",
-      "Visit to Azeitão town",
-      "Delicious local pastry"
+      "Private Guide",
+      "Insurance",
+      "Transportation",
+      "Entrance Tickets",
+      "Local Pastry Torta de Azeitão",
+      "Wine Taste"
     ]
   },
   {
@@ -120,22 +127,12 @@ const services = [
     fullDayPrice: "120€",
     duration: "4h",
     included: [
-      "Visit to Cristo Rei monument",
-      "110m high viewing platform",
-      "Panoramic view of Lisbon",
-      "View of 25 de Abril bridge"
-    ]
-  },
-  {
-    id: "medieval-swordsmanship",
-    name: "Medieval Swordsmanship",
-    description: "Learn the art of medieval sword fighting",
-    price: "Consultar",
-    duration: "A definir",
-    included: [
-      "Sword fighting lessons",
-      "Medieval equipment",
-      "Expert instruction"
+      "Tourist Guide",
+      "Insurance",
+      "Transportation",
+      "Ticket to Christ the King",
+      "Walking tour to Cacilhas",
+      "Ticket for Water Museum"
     ]
   },
   {
@@ -145,10 +142,13 @@ const services = [
     price: "60€",
     duration: "4h",
     included: [
-      "Guided walk by the sea",
-      "Tagus River landscapes",
-      "Nature and history tour",
-      "Local customs and traditions"
+      "Tourist Guide",
+      "Insurance",
+      "Transportation",
+      "Entrance Ticket to Salt Pans at Samouco",
+      "Walking tour village of Alcochete",
+      "Visit Polo Ambiental do sítio das Hortas, birdwatching",
+      "Possible stop at Freeport Fashion Outlet (Additional, if you like shopping outside)"
     ]
   }
 ];
