@@ -181,20 +181,24 @@ const Booking = () => {
       // Aqui você pode integrar com backend ou enviar email
       console.log("Reserva:", validatedData);
       
-      toast.success("Reserva enviada com sucesso! Entraremos em contacto em breve.");
+      // Preparar dados para a página de confirmação
+      const bookingData = {
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        serviceName: selectedServiceData?.name || "",
+        servicePrice: selectedServiceData?.price || "",
+        serviceDuration: selectedServiceData?.duration || "",
+        date: validatedData.date,
+        participants: validatedData.participants,
+        paymentMethod: validatedData.paymentMethod,
+        message: validatedData.message
+      };
       
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        service: "",
-        date: "",
-        participants: "",
-        paymentMethod: "",
-        message: ""
-      });
-      setSelectedService("");
+      // Redirecionar para página de confirmação com os dados
+      navigate("/confirmacao", { state: bookingData });
+      
+      toast.success("Reserva enviada com sucesso!");
     } catch (error) {
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
@@ -202,7 +206,6 @@ const Booking = () => {
       } else {
         toast.error("Erro ao enviar reserva. Tente novamente.");
       }
-    } finally {
       setIsSubmitting(false);
     }
   };
