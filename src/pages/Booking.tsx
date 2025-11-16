@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Check, Calendar, Users, MapPin, ExternalLink } from "lucide-react";
+import { ArrowLeft, Check, Calendar, Users, MapPin, ExternalLink, CreditCard } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -17,6 +17,7 @@ const bookingSchema = z.object({
   service: z.string().min(1, "Selecione um serviço"),
   date: z.string().min(1, "Data é obrigatória"),
   participants: z.string().min(1, "Número de participantes é obrigatório"),
+  paymentMethod: z.string().min(1, "Selecione um método de pagamento"),
   message: z.string().max(1000).optional(),
 });
 
@@ -163,6 +164,7 @@ const Booking = () => {
     service: "",
     date: "",
     participants: "",
+    paymentMethod: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -189,6 +191,7 @@ const Booking = () => {
         service: "",
         date: "",
         participants: "",
+        paymentMethod: "",
         message: ""
       });
       setSelectedService("");
@@ -438,6 +441,73 @@ const Booking = () => {
                       required
                     />
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="paymentMethod">Método de Pagamento *</Label>
+                    <Select
+                      value={formData.paymentMethod}
+                      onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione método de pagamento" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="mbway">MBWay</SelectItem>
+                        <SelectItem value="bank-transfer">Transferência Bancária</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {formData.paymentMethod === "mbway" && (
+                    <Card className="bg-muted/50 border-border/50">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <CreditCard className="w-5 h-5 text-primary mt-0.5" />
+                          <div className="space-y-2">
+                            <p className="font-semibold text-sm text-foreground">Pagamento via MBWay</p>
+                            <p className="text-sm text-muted-foreground">
+                              Após confirmar a reserva, enviaremos uma solicitação MBWay para o número de telefone fornecido.
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              <span className="font-medium text-foreground">Número MBWay:</span> {formData.phone || "Por favor, preencha o seu telefone acima"}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {formData.paymentMethod === "bank-transfer" && (
+                    <Card className="bg-muted/50 border-border/50">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <CreditCard className="w-5 h-5 text-primary mt-0.5" />
+                          <div className="space-y-3">
+                            <p className="font-semibold text-sm text-foreground">Dados para Transferência Bancária</p>
+                            <div className="space-y-2 text-sm">
+                              <div>
+                                <span className="font-medium text-foreground">IBAN:</span>
+                                <p className="text-muted-foreground font-mono">PT50 0000 0000 0000 0000 0000 0</p>
+                              </div>
+                              <div>
+                                <span className="font-medium text-foreground">Titular:</span>
+                                <p className="text-muted-foreground">Jara Travels</p>
+                              </div>
+                              <div>
+                                <span className="font-medium text-foreground">Banco:</span>
+                                <p className="text-muted-foreground">Banco Exemplo</p>
+                              </div>
+                              <div>
+                                <span className="font-medium text-foreground">Referência:</span>
+                                <p className="text-muted-foreground">Por favor, indique o seu nome na descrição da transferência</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="message">Mensagem Adicional</Label>
