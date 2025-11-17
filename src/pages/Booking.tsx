@@ -337,7 +337,7 @@ const Booking = () => {
                   <Users className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="font-semibold text-foreground">Grupos</p>
-                    <p>Desconto para grupos acima de 6 pessoas</p>
+                    <p>Exclusivo até 10 pessoas por grupo. Desconto para grupos acima de 6 pessoas</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
