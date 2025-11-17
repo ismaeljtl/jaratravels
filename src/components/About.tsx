@@ -17,10 +17,16 @@ const About = () => {
               Com anos de experiência no setor do turismo, oferecemos serviços de qualidade superior 
               e atenção personalizada a cada cliente.
             </p>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-lg text-muted-foreground mb-6">
               Trabalhamos em parceria com plataformas líderes como a GetYourGuide para garantir 
               as melhores experiências e facilidade nas reservas.
             </p>
+            
+            <div className="mb-8 p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-sm font-semibold text-primary">
+                Empresa registrada no RNAAT Nº598/2025 - Turismo de Portugal
+              </p>
+            </div>
             
             <div className="space-y-4">
               {[
