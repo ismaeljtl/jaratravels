@@ -19,7 +19,7 @@ const Terms = () => {
             <h2 className="text-2xl font-semibold mb-4">1. Informações Gerais</h2>
             <p className="text-muted-foreground">
               A JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) oferece serviços de turismo 
-              e viagens na Ilha da Madeira. Ao utilizar os nossos serviços, concorda com os 
+              e viagens no Seixal, Distrito de Setúbal, Portugal Continental. Ao utilizar os nossos serviços, concorda com os 
               presentes termos e condições.
             </p>
           </section>
