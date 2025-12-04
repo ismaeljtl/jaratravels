@@ -3,6 +3,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Euro } from "lucide-react";
 
+// Tour images
+import villaGardensImg from "@/assets/tours/villa-gardens.jpg";
+import tourInstaxImg from "@/assets/tours/tour-instax.jpg";
+import seixalMedievalImg from "@/assets/tours/seixal-medieval.jpg";
+import boatripSeixalImg from "@/assets/tours/boatrip-seixal.jpg";
+import sesimbraEmotionImg from "@/assets/tours/sesimbra-emotion.webp";
+import setubalArrabidaImg from "@/assets/tours/setubal-arrabida.jpg";
+import azeitaoVineyardImg from "@/assets/tours/azeitao-vineyard.jpg";
+import almadaCristoReiImg from "@/assets/tours/almada-cristo-rei.jpg";
+import whiteGoldRouteImg from "@/assets/tours/white-gold-route.jpg";
+
 const tours = [
   {
     title: "Tour Villa & Gardens",
@@ -10,6 +21,7 @@ const tours = [
     price: 30,
     duration: "2h30",
     category: "Cultural",
+    image: villaGardensImg,
   },
   {
     title: "Tour Instax Photos",
@@ -17,6 +29,7 @@ const tours = [
     price: 20,
     duration: "1h30",
     category: "Photography",
+    image: tourInstaxImg,
   },
   {
     title: "Seixal Medieval",
@@ -24,6 +37,7 @@ const tours = [
     price: 35,
     duration: "2h",
     category: "Historical",
+    image: seixalMedievalImg,
   },
   {
     title: "Boatrip Seixal",
@@ -31,6 +45,7 @@ const tours = [
     price: 50,
     duration: "3h",
     category: "Maritime",
+    image: boatripSeixalImg,
   },
   {
     title: "Sesimbra Emotion",
@@ -38,6 +53,7 @@ const tours = [
     price: 60,
     duration: "3h",
     category: "Nature",
+    image: sesimbraEmotionImg,
   },
   {
     title: "Setúbal & Arrábida",
@@ -45,6 +61,7 @@ const tours = [
     price: 80,
     duration: "4h",
     category: "Nature",
+    image: setubalArrabidaImg,
   },
   {
     title: "Azeitão Vineyard Tour & Wine Tasting",
@@ -52,6 +69,7 @@ const tours = [
     price: 80,
     duration: "4h",
     category: "Gastronomy",
+    image: azeitaoVineyardImg,
   },
   {
     title: "Almada - Cristo Rei",
@@ -60,6 +78,7 @@ const tours = [
     duration: "4h",
     fullDayPrice: 120,
     category: "Cultural",
+    image: almadaCristoReiImg,
   },
   {
     title: "White Gold Route",
@@ -67,6 +86,7 @@ const tours = [
     price: 60,
     duration: "4h",
     category: "Nature",
+    image: whiteGoldRouteImg,
   },
 ];
 
@@ -89,21 +109,28 @@ const Tours = () => {
           {tours.map((tour, index) => (
             <Card 
               key={index} 
-              className="flex flex-col hover:shadow-lg transition-shadow duration-300 border-border/50"
+              className="flex flex-col hover:shadow-lg transition-shadow duration-300 border-border/50 overflow-hidden"
             >
-              <CardHeader>
-                <div className="flex justify-between items-start mb-2">
-                  <Badge className="bg-primary/10 text-primary border-primary/20">
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src={tour.image} 
+                  alt={tour.title}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <div className="absolute top-3 left-3">
+                  <Badge className="bg-primary/90 text-primary-foreground border-none">
                     {tour.category}
                   </Badge>
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <Clock className="w-4 h-4" />
-                    <span className="text-sm">{tour.duration}</span>
-                  </div>
                 </div>
+                <div className="absolute top-3 right-3 flex items-center gap-1 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-full">
+                  <Clock className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{tour.duration}</span>
+                </div>
+              </div>
+              <CardHeader className="pb-2">
                 <CardTitle className="text-xl">{tour.title}</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow">
+              <CardContent className="flex-grow pb-2">
                 <CardDescription className="text-sm leading-relaxed">
                   {tour.description}
                 </CardDescription>
