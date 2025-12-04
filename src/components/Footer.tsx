@@ -42,23 +42,33 @@ const Footer = () => {
             </a>
           </div>
 
-          <div className="flex gap-4">
-            <a 
-              href="https://www.instagram.com/jaraatw" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-secondary/10 hover:bg-secondary/20 p-2 rounded-full transition-colors"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-5 h-5 text-secondary" />
-            </a>
-            <a 
-              href="mailto:jaratravels@hotmail.com" 
-              className="bg-adventure/10 hover:bg-adventure/20 p-2 rounded-full transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="w-5 h-5 text-adventure" />
-            </a>
+          <div className="flex flex-col gap-4">
+            <div>
+              <h4 className="text-sm font-semibold mb-2">Falamos</h4>
+              <div className="flex gap-2">
+                <span className="text-2xl" title="Português">🇵🇹</span>
+                <span className="text-2xl" title="English">🇬🇧</span>
+                <span className="text-2xl" title="Español">🇪🇸</span>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <a 
+                href="https://www.instagram.com/jaraatw" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-secondary/10 hover:bg-secondary/20 p-2 rounded-full transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5 text-secondary" />
+              </a>
+              <a 
+                href="mailto:jaratravels@hotmail.com" 
+                className="bg-adventure/10 hover:bg-adventure/20 p-2 rounded-full transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-5 h-5 text-adventure" />
+              </a>
+            </div>
           </div>
         </div>
 
