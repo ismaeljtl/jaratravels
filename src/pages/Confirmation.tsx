@@ -33,7 +33,16 @@ const Confirmation = () => {
     return null;
   }
 
-  const paymentMethodLabel = bookingData.paymentMethod === "mbway" ? "MBWay" : "Transferência Bancária";
+  const getPaymentMethodLabel = (method: string) => {
+    switch (method) {
+      case "mbway": return "MBWay";
+      case "bank-transfer": return "Transferência Bancária";
+      case "paypal": return "PayPal";
+      default: return method;
+    }
+  };
+  
+  const paymentMethodLabel = getPaymentMethodLabel(bookingData.paymentMethod);
 
   return (
     <div className="min-h-screen bg-background">
@@ -194,6 +203,20 @@ const Confirmation = () => {
                   </div>
                   <p className="text-xs text-muted-foreground pt-2">
                     Por favor, efetue o pagamento nas próximas 48 horas para confirmar a sua reserva
+                  </p>
+                </div>
+              )}
+
+              {bookingData.paymentMethod === "paypal" && (
+                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
+                  <p className="font-medium text-foreground">Instruções para Pagamento via PayPal:</p>
+                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+                    <li>Enviaremos um link de pagamento PayPal para: <span className="font-medium text-foreground">{bookingData.email}</span></li>
+                    <li>Clique no link e conclua o pagamento de <span className="font-medium text-foreground">{bookingData.servicePrice}</span></li>
+                    <li>Receberá um email de confirmação após o pagamento</li>
+                  </ol>
+                  <p className="text-xs text-muted-foreground pt-2">
+                    O link de pagamento PayPal será enviado nas próximas 24 horas úteis
                   </p>
                 </div>
               )}
