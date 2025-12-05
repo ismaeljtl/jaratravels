@@ -458,6 +458,7 @@ const Booking = () => {
                       <SelectContent>
                         <SelectItem value="mbway">MBWay</SelectItem>
                         <SelectItem value="bank-transfer">Transferência Bancária</SelectItem>
+                        <SelectItem value="paypal">PayPal</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -506,6 +507,25 @@ const Booking = () => {
                                 <p className="text-muted-foreground">Por favor, indique o seu nome na descrição da transferência</p>
                               </div>
                             </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {formData.paymentMethod === "paypal" && (
+                    <Card className="bg-muted/50 border-border/50">
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <CreditCard className="w-5 h-5 text-primary mt-0.5" />
+                          <div className="space-y-2">
+                            <p className="font-semibold text-sm text-foreground">Pagamento via PayPal</p>
+                            <p className="text-sm text-muted-foreground">
+                              Após confirmar a reserva, enviaremos um link de pagamento PayPal para o email fornecido.
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              <span className="font-medium text-foreground">Email para PayPal:</span> {formData.email || "Por favor, preencha o seu email acima"}
+                            </p>
                           </div>
                         </div>
                       </CardContent>
