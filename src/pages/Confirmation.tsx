@@ -208,15 +208,29 @@ const Confirmation = () => {
               )}
 
               {bookingData.paymentMethod === "paypal" && (
-                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
+                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
                   <p className="font-medium text-foreground">Instruções para Pagamento via PayPal:</p>
-                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                    <li>Enviaremos um link de pagamento PayPal para: <span className="font-medium text-foreground">{bookingData.email}</span></li>
-                    <li>Clique no link e conclua o pagamento de <span className="font-medium text-foreground">{bookingData.servicePrice}</span></li>
-                    <li>Receberá um email de confirmação após o pagamento</li>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between items-center p-2 bg-background rounded">
+                      <span className="text-muted-foreground">Email PayPal:</span>
+                      <span className="font-medium text-foreground">jaratravels@hotmail.com</span>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-background rounded">
+                      <span className="text-muted-foreground">Valor:</span>
+                      <span className="font-medium text-foreground">{bookingData.servicePrice}</span>
+                    </div>
+                    <div className="flex justify-between items-start p-2 bg-background rounded">
+                      <span className="text-muted-foreground">Descrição:</span>
+                      <span className="font-medium text-foreground text-right">{bookingData.name} - {bookingData.serviceName}</span>
+                    </div>
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground pt-2">
+                    <li>Aceda ao PayPal e envie o pagamento para <span className="font-medium text-foreground">jaratravels@hotmail.com</span></li>
+                    <li>Na descrição, inclua o seu nome e o serviço reservado</li>
+                    <li>Após o pagamento, receberá a confirmação por email</li>
                   </ol>
                   <p className="text-xs text-muted-foreground pt-2">
-                    O link de pagamento PayPal será enviado nas próximas 24 horas úteis
+                    Por favor, efetue o pagamento nas próximas 48 horas para confirmar a sua reserva
                   </p>
                 </div>
               )}
