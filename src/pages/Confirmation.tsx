@@ -182,15 +182,11 @@ const Confirmation = () => {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">IBAN:</span>
-                      <span className="font-mono font-medium text-foreground">PT50 0000 0000 0000 0000 0000 0</span>
+                      <span className="font-mono font-medium text-foreground">PT50 0045 8735 4040 3299 0093 1</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">Titular:</span>
                       <span className="font-medium text-foreground">Jara Travels</span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">Banco:</span>
-                      <span className="font-medium text-foreground">Banco Exemplo</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">Valor:</span>
