@@ -212,8 +212,15 @@ const Confirmation = () => {
                   <p className="font-medium text-foreground">Instruções para Pagamento via PayPal:</p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">Email PayPal:</span>
-                      <span className="font-medium text-foreground">jaratravels@hotmail.com</span>
+                      <span className="text-muted-foreground">PayPal.me:</span>
+                      <a 
+                        href="https://paypal.me/JaraTravels" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="font-medium text-primary hover:underline"
+                      >
+                        paypal.me/JaraTravels
+                      </a>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">Valor:</span>
@@ -225,8 +232,8 @@ const Confirmation = () => {
                     </div>
                   </div>
                   <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground pt-2">
-                    <li>Aceda ao PayPal e envie o pagamento para <span className="font-medium text-foreground">jaratravels@hotmail.com</span></li>
-                    <li>Na descrição, inclua o seu nome e o serviço reservado</li>
+                    <li>Clique no link acima para aceder ao PayPal</li>
+                    <li>Insira o valor <span className="font-medium text-foreground">{bookingData.servicePrice}</span> e adicione a descrição</li>
                     <li>Após o pagamento, receberá a confirmação por email</li>
                   </ol>
                   <p className="text-xs text-muted-foreground pt-2">
