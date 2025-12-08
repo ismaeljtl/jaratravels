@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(1, "Nome é obrigatório").max(100),
@@ -178,9 +179,6 @@ const Booking = () => {
     try {
       const validatedData = bookingSchema.parse(formData);
       
-      // Aqui você pode integrar com backend ou enviar email
-      console.log("Reserva:", validatedData);
-      
       // Preparar dados para a página de confirmação
       const bookingData = {
         name: validatedData.name,
@@ -194,6 +192,22 @@ const Booking = () => {
         paymentMethod: validatedData.paymentMethod,
         message: validatedData.message
       };
+
+      // Enviar notificação por email
+      try {
+        const { error } = await supabase.functions.invoke('send-booking-notification', {
+          body: bookingData
+        });
+        
+        if (error) {
+          console.error("Error sending notification:", error);
+        } else {
+          console.log("Booking notification sent successfully");
+        }
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Continua mesmo se o email falhar
+      }
       
       // Redirecionar para página de confirmação com os dados
       navigate("/confirmacao", { state: bookingData });
