@@ -166,7 +166,7 @@ const Confirmation = () => {
                 <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
                   <p className="font-medium text-foreground">Instruções para Pagamento via MBWay:</p>
                   <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                    <li>Aguarde a solicitação MBWay no número: <span className="font-medium text-foreground">{bookingData.phone}</span></li>
+                    <li>Aguarde a nossa solicitação MBWay</li>
                     <li>Confirme o pagamento de <span className="font-medium text-foreground">{bookingData.servicePrice}</span> no seu telemóvel</li>
                     <li>Receberá um email de confirmação após o pagamento</li>
                   </ol>
@@ -182,11 +182,15 @@ const Confirmation = () => {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">IBAN:</span>
-                      <span className="font-mono font-medium text-foreground">PT50 0045 8735 4040 3299 0093 1</span>
+                      <span className="font-mono font-medium text-foreground">PT50004587354040329900931</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">Titular:</span>
-                      <span className="font-medium text-foreground">Jara Travels</span>
+                      <span className="font-medium text-foreground">Cláudia Jarimba</span>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-background rounded">
+                      <span className="text-muted-foreground">Banco:</span>
+                      <span className="font-medium text-foreground">Crédito Agrícola</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-background rounded">
                       <span className="text-muted-foreground">Valor:</span>
