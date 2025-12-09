@@ -11,7 +11,7 @@ import boatripSeixalImg from "@/assets/tours/boatrip-seixal.jpg";
 import sesimbraEmotionImg from "@/assets/tours/sesimbra-emotion.webp";
 import setubalArrabidaImg from "@/assets/tours/setubal-arrabida.jpg";
 import azeitaoVineyardImg from "@/assets/tours/azeitao-vineyard.jpg";
-import almadaCristoReiImg from "@/assets/tours/almada-cristo-rei.jpg";
+import almadaCristoReiImg from "@/assets/tours/almada-cristo-rei.png";
 import whiteGoldRouteImg from "@/assets/tours/white-gold-route.webp";
 
 const tours = [
