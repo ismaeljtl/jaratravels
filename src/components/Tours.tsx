@@ -8,7 +8,7 @@ import villaGardensImg from "@/assets/tours/villa-gardens.jpg";
 import tourInstaxImg from "@/assets/tours/tour-instax.jpg";
 import seixalMedievalImg from "@/assets/tours/seixal-medieval.jpg";
 import boatripSeixalImg from "@/assets/tours/boatrip-seixal.jpg";
-import sesimbraEmotionImg from "@/assets/tours/sesimbra-emotion.webp";
+import sesimbraEmotionImg from "@/assets/tours/sesimbra-emotion.png";
 import setubalArrabidaImg from "@/assets/tours/setubal-arrabida.jpg";
 import azeitaoVineyardImg from "@/assets/tours/azeitao-vineyard.jpg";
 import almadaCristoReiImg from "@/assets/tours/almada-cristo-rei.png";
