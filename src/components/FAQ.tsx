@@ -37,7 +37,7 @@ const FAQ = () => {
     },
     {
       question: "Quantas pessoas podem participar num passeio?",
-      answer: "A capacidade varia consoante o tipo de serviço. Desde experiências privadas para pequenos grupos até tours em grupo maiores. Os detalhes específicos estão disponíveis na descrição de cada serviço."
+      answer: "A capacidade varia consoante o tipo de serviço. Mas efetuamos sobretudo experiências privadas para pequenos grupos, até 10 pessoas. Os detalhes específicos estão disponíveis na descrição de cada serviço."
     },
     {
       question: "É necessário conhecimento prévio ou condição física especial?",
