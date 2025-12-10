@@ -6,7 +6,7 @@ import { Clock, Euro } from "lucide-react";
 // Tour images
 import villaGardensImg from "@/assets/tours/villa-gardens.jpg";
 import tourInstaxImg from "@/assets/tours/tour-instax.jpg";
-import seixalMedievalImg from "@/assets/tours/seixal-medieval.jpg";
+import seixalMedievalImg from "@/assets/tours/seixal-medieval-new.png";
 import boatripSeixalImg from "@/assets/tours/boatrip-seixal.jpg";
 import sesimbraEmotionImg from "@/assets/tours/sesimbra-emotion.png";
 import setubalArrabidaImg from "@/assets/tours/setubal-arrabida.jpg";
