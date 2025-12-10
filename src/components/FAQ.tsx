@@ -25,7 +25,7 @@ const FAQ = () => {
     },
     {
       question: "Que tipo de passeios estão disponíveis?",
-      answer: "Oferecemos uma variedade de experiências incluindo tours pela ilha, passeios personalizados, eventos especiais e muito mais. Todos os nossos serviços são adaptáveis às suas preferências e necessidades."
+      answer: "Oferecemos uma variedade de experiências incluindo tours pela Margem Sul, passeios personalizados, eventos especiais e muito mais. Todos os nossos serviços são adaptáveis às suas preferências e necessidades."
     },
     {
       question: "É necessário seguro para os passeios?",
