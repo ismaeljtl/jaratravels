@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/seixal-bay.jpg";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -14,12 +16,12 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
       </div>
       
-      <div className="relative z-10 container mx-auto px-4 text-center text-white">
+      <div className="relative z-10 container mx-auto px-4 text-center text-white pt-16">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-          JaraTravels
+          {t.hero.title}
         </h1>
         <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate-fade-in opacity-90">
-          Descubra experiências inesquecíveis através dos nossos tours, passeios e eventos exclusivos
+          {t.hero.subtitle}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
           <Button 
@@ -27,7 +29,7 @@ const Hero = () => {
             onClick={() => navigate("/reservas")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           >
-            Reserve Agora
+            {t.hero.bookNow}
           </Button>
           <Button 
             size="lg" 
@@ -35,7 +37,7 @@ const Hero = () => {
             onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
             className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 hover:border-white/50"
           >
-            Nossos Serviços
+            {t.hero.ourServices}
           </Button>
         </div>
       </div>

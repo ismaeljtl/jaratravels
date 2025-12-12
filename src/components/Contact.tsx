@@ -5,8 +5,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Instagram } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Contact = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,7 +18,7 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Mensagem enviada! Entraremos em contacto em breve.");
+    toast.success(t.contact.successMessage);
     setFormData({ name: "", email: "", phone: "", message: "" });
   };
 
@@ -28,25 +30,25 @@ const Contact = () => {
     <section id="contact" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Entre em Contacto</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.contact.title}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Pronto para a sua próxima aventura? Contacte-nos e comecemos a planear!
+            {t.contact.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           <Card className="border-border/50">
             <CardHeader>
-              <CardTitle className="text-2xl">Envie-nos uma Mensagem</CardTitle>
+              <CardTitle className="text-2xl">{t.contact.formTitle}</CardTitle>
               <CardDescription>
-                Preencha o formulário e responderemos o mais breve possível
+                {t.contact.formSubtitle}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <Input
-                    placeholder="Seu Nome"
+                    placeholder={t.contact.name}
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -57,7 +59,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="email"
-                    placeholder="Seu Email"
+                    placeholder={t.contact.email}
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -68,7 +70,7 @@ const Contact = () => {
                 <div>
                   <Input
                     type="tel"
-                    placeholder="Seu Telefone"
+                    placeholder={t.contact.phone}
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -77,7 +79,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <Textarea
-                    placeholder="Sua Mensagem"
+                    placeholder={t.contact.message}
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
@@ -87,7 +89,7 @@ const Contact = () => {
                   />
                 </div>
                 <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                  Enviar Mensagem
+                  {t.contact.send}
                 </Button>
               </form>
             </CardContent>
@@ -131,7 +133,7 @@ const Contact = () => {
                   <MapPin className="w-6 h-6 text-adventure" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Localização</h3>
+                  <h3 className="font-semibold mb-1">{t.contact.location}</h3>
                   <p className="text-muted-foreground">Seixal, Portugal</p>
                 </div>
               </CardContent>
