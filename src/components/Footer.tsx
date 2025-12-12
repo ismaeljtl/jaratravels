@@ -1,6 +1,10 @@
 import { Instagram, Mail, FileText, Shield, BookOpen } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSelector from "./LanguageSelector";
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-foreground/5 border-t border-border">
       <div className="container mx-auto px-4 py-8">
@@ -8,7 +12,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <h3 className="text-xl font-bold mb-2">JaraTravels</h3>
             <p className="text-sm text-muted-foreground mb-3">
-              Criando experiências de viagem inesquecíveis
+              {t.footer.tagline}
             </p>
             <p className="text-xs text-muted-foreground">
               RNAAT Nº598/2025 - Turismo de Portugal
@@ -16,20 +20,20 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-3">
-            <h4 className="text-sm font-semibold mb-1">Informação Legal</h4>
+            <h4 className="text-sm font-semibold mb-1">{t.footer.legalInfo}</h4>
             <a 
               href="/termos" 
               className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
               <FileText className="w-4 h-4" />
-              Termos e Condições
+              {t.footer.terms}
             </a>
             <a 
               href="/privacidade" 
               className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
               <Shield className="w-4 h-4" />
-              Política de Privacidade
+              {t.footer.privacy}
             </a>
             <a 
               href="https://livroreclamacoes.pt/Inicio/" 
@@ -38,18 +42,14 @@ const Footer = () => {
               className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
               <BookOpen className="w-4 h-4" />
-              Livro de Reclamações
+              {t.footer.complaints}
             </a>
           </div>
 
           <div className="flex flex-col gap-4">
             <div>
-              <h4 className="text-sm font-semibold mb-2">Falamos</h4>
-              <div className="flex gap-2">
-                <span className="text-2xl" title="Português">🇵🇹</span>
-                <span className="text-2xl" title="English">🇬🇧</span>
-                <span className="text-2xl" title="Español">🇪🇸</span>
-              </div>
+              <h4 className="text-sm font-semibold mb-2">{t.footer.languages}</h4>
+              <LanguageSelector variant="footer" />
             </div>
             <div className="flex gap-4">
               <a 
@@ -73,7 +73,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-6 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} JaraTravels. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} JaraTravels. {t.footer.copyright}</p>
         </div>
       </div>
     </footer>

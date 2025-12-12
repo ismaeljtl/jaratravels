@@ -3,36 +3,39 @@ import { MapPin, Calendar, Users } from "lucide-react";
 import toursImage from "@/assets/tours-image.jpg";
 import tripsImage from "@/assets/trips-image.jpg";
 import eventsImage from "@/assets/events-image.jpg";
-
-const services = [
-  {
-    title: "Tours Guiados",
-    description: "Explore destinos incríveis com guias especializados e roteiros cuidadosamente planeados",
-    icon: MapPin,
-    image: toursImage,
-  },
-  {
-    title: "Passeios Personalizados",
-    description: "Experiências únicas adaptadas aos seus interesses e preferências",
-    icon: Calendar,
-    image: tripsImage,
-  },
-  {
-    title: "Eventos Especiais",
-    description: "Organizamos eventos memoráveis para grupos e ocasiões especiais",
-    icon: Users,
-    image: eventsImage,
-  },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Services = () => {
+  const { t } = useLanguage();
+
+  const services = [
+    {
+      title: t.services.guidedTours,
+      description: t.services.guidedToursDesc,
+      icon: MapPin,
+      image: toursImage,
+    },
+    {
+      title: t.services.customTrips,
+      description: t.services.customTripsDesc,
+      icon: Calendar,
+      image: tripsImage,
+    },
+    {
+      title: t.services.specialEvents,
+      description: t.services.specialEventsDesc,
+      icon: Users,
+      image: eventsImage,
+    },
+  ];
+
   return (
     <section id="services" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Nossos Serviços</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.services.title}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Oferecemos experiências de viagem completas, desde tours guiados até eventos personalizados
+            {t.services.subtitle}
           </p>
         </div>
 
