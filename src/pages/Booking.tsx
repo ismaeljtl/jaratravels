@@ -216,9 +216,13 @@ const Booking = () => {
       };
 
       // Save booking to database first
-      const { data: insertedBooking, error: dbError } = await supabase
+      // Note: we generate the UUID client-side to avoid requiring SELECT access on the bookings table.
+      const bookingId = crypto.randomUUID();
+
+      const { error: dbError } = await supabase
         .from('bookings')
         .insert({
+          id: bookingId,
           name: validatedData.name,
           email: validatedData.email,
           phone: validatedData.phone,
@@ -228,12 +232,10 @@ const Booking = () => {
           booking_date: validatedData.date,
           participants: parseInt(validatedData.participants, 10),
           payment_method: validatedData.paymentMethod,
-          message: validatedData.message || null
-        })
-        .select('id')
-        .single();
+          message: validatedData.message || null,
+        });
 
-      if (dbError || !insertedBooking) {
+      if (dbError) {
         console.error("Error saving booking to database:", dbError);
         toast.error(t.booking.bookingError);
         setIsSubmitting(false);
@@ -255,7 +257,7 @@ const Booking = () => {
       }
       
       // Pass booking ID for secure payment details retrieval
-      navigate("/confirmacao", { state: { ...bookingData, bookingId: insertedBooking.id } });
+      navigate("/confirmacao", { state: { ...bookingData, bookingId } });
       
       toast.success(t.booking.bookingSuccess);
     } catch (error) {
