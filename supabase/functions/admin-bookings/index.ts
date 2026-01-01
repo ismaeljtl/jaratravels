@@ -49,10 +49,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Authenticated user: ${user.email}`);
 
-    // Check if user is the authorized admin
-    const adminEmail = Deno.env.get("ADMIN_EMAIL");
-    if (!adminEmail || user.email !== adminEmail) {
-      console.log(`Access denied for user: ${user.email}. Expected admin: ${adminEmail}`);
+    // Check if user is an authorized admin (supports comma-separated emails)
+    const adminEmails = Deno.env.get("ADMIN_EMAIL");
+    const adminList = adminEmails ? adminEmails.split(",").map(e => e.trim().toLowerCase()) : [];
+    const userEmail = user.email?.toLowerCase() || "";
+    
+    if (!adminList.includes(userEmail)) {
+      console.log(`Access denied for user: ${user.email}. Authorized admins: ${adminList.join(", ")}`);
       return new Response(
         JSON.stringify({ error: "Forbidden - Admin access only" }),
         { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
