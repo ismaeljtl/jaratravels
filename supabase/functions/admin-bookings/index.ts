@@ -49,6 +49,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Authenticated user: ${user.email}`);
 
+    // Check if user is the authorized admin
+    const adminEmail = Deno.env.get("ADMIN_EMAIL");
+    if (!adminEmail || user.email !== adminEmail) {
+      console.log(`Access denied for user: ${user.email}. Expected admin: ${adminEmail}`);
+      return new Response(
+        JSON.stringify({ error: "Forbidden - Admin access only" }),
+        { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    console.log("Admin access granted");
+
     // Use service role client for database operations
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
