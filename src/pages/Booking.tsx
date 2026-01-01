@@ -195,7 +195,7 @@ const Booking = () => {
       };
 
       // Save booking to database first
-      const { error: dbError } = await supabase
+      const { data: insertedBooking, error: dbError } = await supabase
         .from('bookings')
         .insert({
           name: validatedData.name,
@@ -208,9 +208,11 @@ const Booking = () => {
           participants: parseInt(validatedData.participants, 10),
           payment_method: validatedData.paymentMethod,
           message: validatedData.message || null
-        });
+        })
+        .select('id')
+        .single();
 
-      if (dbError) {
+      if (dbError || !insertedBooking) {
         console.error("Error saving booking to database:", dbError);
         toast.error(t.booking.bookingError);
         setIsSubmitting(false);
@@ -231,7 +233,8 @@ const Booking = () => {
         // Don't block user flow - booking is already saved
       }
       
-      navigate("/confirmacao", { state: bookingData });
+      // Pass booking ID for secure payment details retrieval
+      navigate("/confirmacao", { state: { ...bookingData, bookingId: insertedBooking.id } });
       
       toast.success(t.booking.bookingSuccess);
     } catch (error) {
