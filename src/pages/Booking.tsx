@@ -5,13 +5,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Check, Calendar, Users, MapPin, ExternalLink, CreditCard } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n";
-import TurnstileCaptcha from "@/components/TurnstileCaptcha";
 
 const services = [
   {
@@ -161,23 +160,6 @@ const Booking = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaSiteKey, setCaptchaSiteKey] = useState<string>("");
-
-  // Fetch CAPTCHA site key from server
-  useEffect(() => {
-    const fetchCaptchaConfig = async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke('get-captcha-config');
-        if (!error && data?.siteKey) {
-          setCaptchaSiteKey(data.siteKey);
-        }
-      } catch (err) {
-        console.error("Failed to fetch CAPTCHA config:", err);
-      }
-    };
-    fetchCaptchaConfig();
-  }, []);
 
   const selectedServiceData = services.find(s => s.id === selectedService);
 
@@ -197,27 +179,6 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
-      // Verify CAPTCHA first (only if site key is configured)
-      if (captchaSiteKey && !captchaToken) {
-        toast.error("Por favor, complete a verificação de segurança.");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Verify CAPTCHA with server if token exists
-      if (captchaSiteKey && captchaToken) {
-        const { data: captchaResult, error: captchaError } = await supabase.functions.invoke('verify-captcha', {
-          body: { token: captchaToken }
-        });
-
-        if (captchaError || !captchaResult?.success) {
-          toast.error("Verificação de segurança falhou. Tente novamente.");
-          setCaptchaToken(null);
-          setIsSubmitting(false);
-          return;
-        }
-      }
-
       const validatedData = bookingSchema.parse(formData);
       
       const bookingData = {
@@ -620,23 +581,10 @@ const Booking = () => {
                     />
                   </div>
 
-                  {/* CAPTCHA */}
-                  {captchaSiteKey && (
-                    <div className="space-y-2">
-                      <Label>Verificação de Segurança *</Label>
-                      <TurnstileCaptcha
-                        siteKey={captchaSiteKey}
-                        onVerify={(token) => setCaptchaToken(token)}
-                        onExpire={() => setCaptchaToken(null)}
-                        onError={() => setCaptchaToken(null)}
-                      />
-                    </div>
-                  )}
-
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={isSubmitting || (captchaSiteKey && !captchaToken)}
+                    disabled={isSubmitting}
                   >
                     {isSubmitting ? t.booking.submitting : t.booking.confirmBooking}
                   </Button>
