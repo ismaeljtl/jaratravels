@@ -5,12 +5,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Check, Calendar, Users, MapPin, ExternalLink, CreditCard } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+
+const TURNSTILE_SITE_KEY = "0x4AAAAAABfcJGCrwvhBLYa4";
 
 const services = [
   {
@@ -160,6 +163,8 @@ const Booking = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const selectedServiceData = services.find(s => s.id === selectedService);
 
@@ -179,23 +184,9 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
-      // Check rate limit first
-      const { data: rateLimitData, error: rateLimitError } = await supabase.functions.invoke('check-rate-limit', {
-        body: { 
-          identifier: formData.email,
-          action: 'booking',
-          maxAttempts: 5,
-          windowMinutes: 60
-        }
-      });
-
-      if (rateLimitError) {
-        console.error("Rate limit check error:", rateLimitError);
-      }
-
-      if (rateLimitData && !rateLimitData.allowed) {
-        const retryMinutes = Math.ceil((rateLimitData.retry_after || 3600) / 60);
-        toast.error(`Demasiadas tentativas. Por favor, aguarde ${retryMinutes} minutos antes de tentar novamente.`);
+      // Validate Turnstile token
+      if (!turnstileToken) {
+        toast.error("Por favor, complete a verificação de segurança.");
         setIsSubmitting(false);
         return;
       }
@@ -210,54 +201,42 @@ const Booking = () => {
         servicePrice: selectedServiceData?.price || "",
         serviceDuration: selectedServiceData?.duration || "",
         date: validatedData.date,
-        participants: validatedData.participants,
+        participants: parseInt(validatedData.participants, 10),
         paymentMethod: validatedData.paymentMethod,
-        message: validatedData.message
+        message: validatedData.message,
+        turnstileToken: turnstileToken
       };
 
-      // Save booking to database first
-      // Note: we generate the UUID client-side to avoid requiring SELECT access on the bookings table.
-      const bookingId = crypto.randomUUID();
+      // Use the secure create-booking edge function
+      const { data, error } = await supabase.functions.invoke('create-booking', {
+        body: bookingData
+      });
 
-      const { error: dbError } = await supabase
-        .from('bookings')
-        .insert({
-          id: bookingId,
-          name: validatedData.name,
-          email: validatedData.email,
-          phone: validatedData.phone,
-          service_name: selectedServiceData?.name || "",
-          service_price: selectedServiceData?.price || "",
-          service_duration: selectedServiceData?.duration || "",
-          booking_date: validatedData.date,
-          participants: parseInt(validatedData.participants, 10),
-          payment_method: validatedData.paymentMethod,
-          message: validatedData.message || null,
-        });
+      // Reset Turnstile after submission attempt
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
 
-      if (dbError) {
-        console.error("Error saving booking to database:", dbError);
+      if (error) {
+        console.error("Error creating booking:", error);
         toast.error(t.booking.bookingError);
         setIsSubmitting(false);
         return;
       }
 
-      // Send email notification after successful database save
-      try {
-        const { error } = await supabase.functions.invoke('send-booking-notification', {
-          body: bookingData
-        });
-        
-        if (error) {
-          console.error("Error sending notification:", error);
-        }
-      } catch (emailError) {
-        console.error("Failed to send email notification:", emailError);
-        // Don't block user flow - booking is already saved
+      if (data?.error) {
+        toast.error(data.error);
+        setIsSubmitting(false);
+        return;
       }
-      
+
       // Pass booking ID for secure payment details retrieval
-      navigate("/confirmacao", { state: { ...bookingData, bookingId } });
+      navigate("/confirmacao", { 
+        state: { 
+          ...bookingData, 
+          bookingId: data.bookingId,
+          participants: validatedData.participants // Keep as string for display
+        } 
+      });
       
       toast.success(t.booking.bookingSuccess);
     } catch (error) {
@@ -267,6 +246,8 @@ const Booking = () => {
       } else {
         toast.error(t.booking.bookingError);
       }
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
       setIsSubmitting(false);
     }
   };
@@ -604,10 +585,28 @@ const Booking = () => {
                     />
                   </div>
 
+                  {/* Turnstile Security Widget */}
+                  <div className="flex justify-center">
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={TURNSTILE_SITE_KEY}
+                      onSuccess={(token) => setTurnstileToken(token)}
+                      onError={() => {
+                        setTurnstileToken(null);
+                        toast.error("Erro na verificação de segurança. Tente novamente.");
+                      }}
+                      onExpire={() => setTurnstileToken(null)}
+                      options={{
+                        theme: 'auto',
+                        size: 'normal'
+                      }}
+                    />
+                  </div>
+
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !turnstileToken}
                   >
                     {isSubmitting ? t.booking.submitting : t.booking.confirmBooking}
                   </Button>
