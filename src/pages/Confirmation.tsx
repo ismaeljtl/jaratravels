@@ -306,6 +306,33 @@ const Confirmation = () => {
                       </p>
                     </div>
                   )}
+
+                  {/* Proof of Payment Request */}
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mt-4">
+                    <p className="font-medium text-foreground mb-2">{t.confirmation.proofOfPayment}</p>
+                    <p className="text-sm text-muted-foreground mb-3">{t.confirmation.proofOfPaymentDesc}</p>
+                    <div className="flex flex-col sm:flex-row gap-2 mb-3">
+                      <a 
+                        href="mailto:jaratravels@hotmail.com" 
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-background border border-border rounded-md text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                      >
+                        <Mail className="w-4 h-4" />
+                        jaratravels@hotmail.com
+                      </a>
+                      <a 
+                        href="https://wa.me/351925177947" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-md text-sm font-medium hover:bg-[#20BD5A] transition-colors"
+                      >
+                        <Phone className="w-4 h-4" />
+                        WhatsApp
+                      </a>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {t.confirmation.proofOfPaymentNote}
+                    </p>
+                  </div>
                 </>
               )}
             </CardContent>
