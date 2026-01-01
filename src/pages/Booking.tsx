@@ -194,6 +194,30 @@ const Booking = () => {
         message: validatedData.message
       };
 
+      // Save booking to database first
+      const { error: dbError } = await supabase
+        .from('bookings')
+        .insert({
+          name: validatedData.name,
+          email: validatedData.email,
+          phone: validatedData.phone,
+          service_name: selectedServiceData?.name || "",
+          service_price: selectedServiceData?.price || "",
+          service_duration: selectedServiceData?.duration || "",
+          booking_date: validatedData.date,
+          participants: parseInt(validatedData.participants, 10),
+          payment_method: validatedData.paymentMethod,
+          message: validatedData.message || null
+        });
+
+      if (dbError) {
+        console.error("Error saving booking to database:", dbError);
+        toast.error(t.booking.bookingError);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Send email notification after successful database save
       try {
         const { error } = await supabase.functions.invoke('send-booking-notification', {
           body: bookingData
@@ -201,11 +225,10 @@ const Booking = () => {
         
         if (error) {
           console.error("Error sending notification:", error);
-        } else {
-          console.log("Booking notification sent successfully");
         }
       } catch (emailError) {
         console.error("Failed to send email notification:", emailError);
+        // Don't block user flow - booking is already saved
       }
       
       navigate("/confirmacao", { state: bookingData });
