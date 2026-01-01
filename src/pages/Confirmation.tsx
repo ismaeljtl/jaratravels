@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Calendar, Users, MapPin, CreditCard, Mail, Phone, ArrowLeft, Home } from "lucide-react";
+import { CheckCircle2, Calendar, Users, MapPin, CreditCard, Mail, Phone, ArrowLeft, Home, Loader2 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/i18n";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BookingData {
   name: string;
@@ -16,6 +17,15 @@ interface BookingData {
   participants: string;
   paymentMethod: string;
   message?: string;
+  bookingId?: string;
+}
+
+interface PaymentInfo {
+  iban?: string;
+  holder?: string;
+  bank?: string;
+  phone?: string;
+  link?: string;
 }
 
 const Confirmation = () => {
@@ -23,14 +33,41 @@ const Confirmation = () => {
   const location = useLocation();
   const bookingData = location.state as BookingData;
   const { t, language } = useLanguage();
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
 
   useEffect(() => {
-    if (!bookingData) {
+    if (!bookingData || !bookingData.bookingId) {
       navigate("/reservas");
+      return;
     }
+
+    // Fetch payment details from secure edge function
+    const fetchPaymentDetails = async () => {
+      setIsLoadingPayment(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('get-payment-details', {
+          body: { 
+            bookingId: bookingData.bookingId,
+            paymentMethod: bookingData.paymentMethod 
+          }
+        });
+
+        if (error) {
+          console.error("Error fetching payment details:", error);
+        } else if (data?.paymentInfo) {
+          setPaymentInfo(data.paymentInfo);
+        }
+      } catch (err) {
+        console.error("Failed to fetch payment details:", err);
+      }
+      setIsLoadingPayment(false);
+    };
+
+    fetchPaymentDetails();
   }, [bookingData, navigate]);
 
-  if (!bookingData) {
+  if (!bookingData || !bookingData.bookingId) {
     return null;
   }
 
@@ -171,84 +208,105 @@ const Confirmation = () => {
                 <p className="font-semibold text-foreground">{paymentMethodLabel}</p>
               </div>
 
-              {bookingData.paymentMethod === "mbway" && (
-                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
-                  <p className="font-medium text-foreground">{t.confirmation.mbwayInstructions}</p>
-                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                    <li>{t.confirmation.mbwayStep1}</li>
-                    <li>{t.confirmation.mbwayStep2.replace("{price}", bookingData.servicePrice)}</li>
-                    <li>{t.confirmation.mbwayStep3}</li>
-                  </ol>
-                  <p className="text-xs text-muted-foreground pt-2">
-                    {t.confirmation.mbwayNote}
-                  </p>
+              {isLoadingPayment ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                  <span className="ml-2 text-muted-foreground">A carregar dados de pagamento...</span>
                 </div>
-              )}
+              ) : (
+                <>
+                  {bookingData.paymentMethod === "mbway" && paymentInfo?.phone && (
+                    <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
+                      <p className="font-medium text-foreground">{t.confirmation.mbwayInstructions}</p>
+                      <div className="flex justify-between items-center p-2 bg-background rounded">
+                        <span className="text-muted-foreground">{t.confirmation.phone}:</span>
+                        <span className="font-mono font-medium text-foreground">{paymentInfo.phone}</span>
+                      </div>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+                        <li>{t.confirmation.mbwayStep1}</li>
+                        <li>{t.confirmation.mbwayStep2.replace("{price}", bookingData.servicePrice)}</li>
+                        <li>{t.confirmation.mbwayStep3}</li>
+                      </ol>
+                      <p className="text-xs text-muted-foreground pt-2">
+                        {t.confirmation.mbwayNote}
+                      </p>
+                    </div>
+                  )}
 
-              {bookingData.paymentMethod === "bank-transfer" && (
-                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
-                  <p className="font-medium text-foreground">{t.confirmation.bankTransferData}</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.iban}</span>
-                      <span className="font-mono font-medium text-foreground">PT50004587354040329900931</span>
+                  {bookingData.paymentMethod === "bank-transfer" && paymentInfo?.iban && (
+                    <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
+                      <p className="font-medium text-foreground">{t.confirmation.bankTransferData}</p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.iban}</span>
+                          <span className="font-mono font-medium text-foreground">{paymentInfo.iban}</span>
+                        </div>
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.holder}</span>
+                          <span className="font-medium text-foreground">{paymentInfo.holder}</span>
+                        </div>
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.bank}</span>
+                          <span className="font-medium text-foreground">{paymentInfo.bank}</span>
+                        </div>
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.value}</span>
+                          <span className="font-medium text-foreground">{bookingData.servicePrice}</span>
+                        </div>
+                        <div className="flex justify-between items-start p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.description}</span>
+                          <span className="font-medium text-foreground text-right">{bookingData.name} - {bookingData.serviceName}</span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground pt-2">
+                        {t.confirmation.bankTransferNote}
+                      </p>
                     </div>
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.holder}</span>
-                      <span className="font-medium text-foreground">Cláudia Jarimba</span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.bank}</span>
-                      <span className="font-medium text-foreground">Crédito Agrícola</span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.value}</span>
-                      <span className="font-medium text-foreground">{bookingData.servicePrice}</span>
-                    </div>
-                    <div className="flex justify-between items-start p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.description}</span>
-                      <span className="font-medium text-foreground text-right">{bookingData.name} - {bookingData.serviceName}</span>
-                    </div>
-                  </div>
-                  <p className="text-xs text-muted-foreground pt-2">
-                    {t.confirmation.bankTransferNote}
-                  </p>
-                </div>
-              )}
+                  )}
 
-              {bookingData.paymentMethod === "paypal" && (
-                <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
-                  <p className="font-medium text-foreground">{t.confirmation.paypalInstructions}</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">PayPal.me:</span>
-                      <a 
-                        href="https://paypal.me/JaraTravels" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="font-medium text-primary hover:underline"
-                      >
-                        paypal.me/JaraTravels
-                      </a>
+                  {bookingData.paymentMethod === "paypal" && paymentInfo?.link && (
+                    <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
+                      <p className="font-medium text-foreground">{t.confirmation.paypalInstructions}</p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">PayPal.me:</span>
+                          <a 
+                            href={paymentInfo.link}
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="font-medium text-primary hover:underline"
+                          >
+                            {paymentInfo.link.replace('https://', '')}
+                          </a>
+                        </div>
+                        <div className="flex justify-between items-center p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.value}</span>
+                          <span className="font-medium text-foreground">{bookingData.servicePrice}</span>
+                        </div>
+                        <div className="flex justify-between items-start p-2 bg-background rounded">
+                          <span className="text-muted-foreground">{t.confirmation.description}</span>
+                          <span className="font-medium text-foreground text-right">{bookingData.name} - {bookingData.serviceName}</span>
+                        </div>
+                      </div>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground pt-2">
+                        <li>{t.confirmation.paypalStep1}</li>
+                        <li>{t.confirmation.paypalStep2.replace("{price}", bookingData.servicePrice)}</li>
+                        <li>{t.confirmation.paypalStep3}</li>
+                      </ol>
+                      <p className="text-xs text-muted-foreground pt-2">
+                        {t.confirmation.paypalNote}
+                      </p>
                     </div>
-                    <div className="flex justify-between items-center p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.value}</span>
-                      <span className="font-medium text-foreground">{bookingData.servicePrice}</span>
+                  )}
+
+                  {!paymentInfo && !isLoadingPayment && (
+                    <div className="bg-muted/50 border border-border/50 rounded-lg p-4">
+                      <p className="text-muted-foreground text-center">
+                        Os dados de pagamento serão enviados por email.
+                      </p>
                     </div>
-                    <div className="flex justify-between items-start p-2 bg-background rounded">
-                      <span className="text-muted-foreground">{t.confirmation.description}</span>
-                      <span className="font-medium text-foreground text-right">{bookingData.name} - {bookingData.serviceName}</span>
-                    </div>
-                  </div>
-                  <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground pt-2">
-                    <li>{t.confirmation.paypalStep1}</li>
-                    <li>{t.confirmation.paypalStep2.replace("{price}", bookingData.servicePrice)}</li>
-                    <li>{t.confirmation.paypalStep3}</li>
-                  </ol>
-                  <p className="text-xs text-muted-foreground pt-2">
-                    {t.confirmation.paypalNote}
-                  </p>
-                </div>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
