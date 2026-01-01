@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.admin-bookings]
 verify_jwt = false
+
+[functions.get-payment-details]
+verify_jwt = false
