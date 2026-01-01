@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, Download, Smartphone, Share, Plus, MoreVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/i18n";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -11,6 +12,7 @@ interface BeforeInstallPromptEvent extends Event {
 
 const Install = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
@@ -59,14 +61,14 @@ const Install = () => {
             <div className="mx-auto bg-green-100 dark:bg-green-900/20 rounded-full p-4 w-fit mb-4">
               <Smartphone className="w-12 h-12 text-green-600" />
             </div>
-            <CardTitle className="text-2xl">App Instalada!</CardTitle>
+            <CardTitle className="text-2xl">{t.install.installed}</CardTitle>
             <CardDescription>
-              A JaraTravels já está instalada no teu dispositivo.
+              {t.install.installedDesc}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={() => navigate("/")} className="w-full">
-              Voltar à App
+              {t.install.backToApp}
             </Button>
           </CardContent>
         </Card>
@@ -86,7 +88,7 @@ const Install = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-2xl font-bold">Instalar App</h1>
+          <h1 className="text-2xl font-bold">{t.install.title}</h1>
         </div>
       </header>
 
@@ -95,9 +97,9 @@ const Install = () => {
           <div className="mx-auto bg-primary/10 rounded-full p-6 w-fit mb-6">
             <Download className="w-16 h-16 text-primary" />
           </div>
-          <h2 className="text-3xl font-bold mb-4">Instala a JaraTravels</h2>
+          <h2 className="text-3xl font-bold mb-4">{t.install.mainTitle}</h2>
           <p className="text-muted-foreground text-lg">
-            Adiciona a nossa app ao teu ecrã inicial para acesso rápido às melhores experiências.
+            {t.install.mainDesc}
           </p>
         </div>
 
@@ -110,9 +112,9 @@ const Install = () => {
                   <Smartphone className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Acesso Rápido</h3>
+                  <h3 className="font-semibold mb-1">{t.install.quickAccess}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Abre a app diretamente do ecrã inicial, como qualquer outra app.
+                    {t.install.quickAccessDesc}
                   </p>
                 </div>
               </div>
@@ -126,9 +128,9 @@ const Install = () => {
                   <Download className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Funciona Offline</h3>
+                  <h3 className="font-semibold mb-1">{t.install.worksOffline}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Acede às informações mesmo sem ligação à internet.
+                    {t.install.worksOfflineDesc}
                   </p>
                 </div>
               </div>
@@ -140,38 +142,38 @@ const Install = () => {
         {deferredPrompt ? (
           <Button onClick={handleInstall} size="lg" className="w-full mb-8">
             <Download className="w-5 h-5 mr-2" />
-            Instalar Agora
+            {t.install.installNow}
           </Button>
         ) : isIOS ? (
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="text-lg">Como instalar no iPhone/iPad</CardTitle>
+              <CardTitle className="text-lg">{t.install.iosTitle}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</div>
                 <div className="flex-1">
-                  <p className="font-medium">Toca no botão Partilhar</p>
+                  <p className="font-medium">{t.install.iosStep1}</p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                     <Share className="w-4 h-4" />
-                    <span>Na barra inferior do Safari</span>
+                    <span>{t.install.iosStep1Desc}</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</div>
                 <div className="flex-1">
-                  <p className="font-medium">Seleciona "Adicionar ao Ecrã Principal"</p>
+                  <p className="font-medium">{t.install.iosStep2}</p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                     <Plus className="w-4 h-4" />
-                    <span>Desliza para encontrar a opção</span>
+                    <span>{t.install.iosStep2Desc}</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</div>
                 <div className="flex-1">
-                  <p className="font-medium">Confirma tocando em "Adicionar"</p>
+                  <p className="font-medium">{t.install.iosStep3}</p>
                 </div>
               </div>
             </CardContent>
@@ -179,29 +181,29 @@ const Install = () => {
         ) : (
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="text-lg">Como instalar no Android</CardTitle>
+              <CardTitle className="text-lg">{t.install.androidTitle}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</div>
                 <div className="flex-1">
-                  <p className="font-medium">Toca no menu do browser</p>
+                  <p className="font-medium">{t.install.androidStep1}</p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                     <MoreVertical className="w-4 h-4" />
-                    <span>Os três pontos no canto superior</span>
+                    <span>{t.install.androidStep1Desc}</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</div>
                 <div className="flex-1">
-                  <p className="font-medium">Seleciona "Instalar app" ou "Adicionar ao ecrã inicial"</p>
+                  <p className="font-medium">{t.install.androidStep2}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="bg-muted rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</div>
                 <div className="flex-1">
-                  <p className="font-medium">Confirma a instalação</p>
+                  <p className="font-medium">{t.install.androidStep3}</p>
                 </div>
               </div>
             </CardContent>
@@ -209,7 +211,7 @@ const Install = () => {
         )}
 
         <Button variant="outline" onClick={() => navigate("/")} className="w-full">
-          Voltar ao Site
+          {t.install.backToSite}
         </Button>
       </div>
     </div>
