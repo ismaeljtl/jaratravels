@@ -1,5 +1,6 @@
-import { Instagram, Mail, FileText, Shield, BookOpen } from "lucide-react";
+import { Instagram, Mail, FileText, Shield, BookOpen, Smartphone } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Link } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 
 const Footer = () => {
@@ -44,6 +45,13 @@ const Footer = () => {
               <BookOpen className="w-4 h-4" />
               {t.footer.complaints}
             </a>
+            <Link 
+              to="/instalar"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+            >
+              <Smartphone className="w-4 h-4" />
+              Instalar App
+            </Link>
           </div>
 
           <div className="flex flex-col gap-4">
