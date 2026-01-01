@@ -1,6 +1,9 @@
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/i18n";
 
 const Terms = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-background border-b border-border">
@@ -12,69 +15,42 @@ const Terms = () => {
       </header>
 
       <main className="flex-1 container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8">Termos e Condições</h1>
+        <h1 className="text-4xl font-bold mb-8">{t.terms.title}</h1>
         
         <div className="prose prose-slate max-w-none space-y-6">
           <section>
-            <h2 className="text-2xl font-semibold mb-4">1. Informações Gerais</h2>
-            <p className="text-muted-foreground">
-              A JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) oferece serviços de turismo 
-              e animação turística no Seixal, Distrito de Setúbal, Portugal Continental. Ao utilizar os nossos serviços, concorda com os 
-              presentes termos e condições.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.general.title}</h2>
+            <p className="text-muted-foreground">{t.terms.general.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">2. Reservas e Pagamentos</h2>
-            <p className="text-muted-foreground">
-              As reservas podem ser efetuadas através do nosso website ou parceiros autorizados. 
-              O pagamento integral é necessário para confirmar a reserva. Aceitamos os métodos 
-              de pagamento indicados no processo de reserva.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.reservations.title}</h2>
+            <p className="text-muted-foreground">{t.terms.reservations.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">3. Cancelamentos e Reembolsos</h2>
-            <p className="text-muted-foreground">
-              Os cancelamentos devem ser comunicados com antecedência mínima de 24 horas. 
-              Cancelamentos com menos de 24 horas de antecedência não terão direito a reembolso. 
-              As políticas específicas podem variar consoante o tipo de serviço contratado.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.cancellations.title}</h2>
+            <p className="text-muted-foreground">{t.terms.cancellations.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">4. Responsabilidades</h2>
-            <p className="text-muted-foreground">
-              A JaraTravels compromete-se a prestar os serviços contratados com qualidade e 
-              profissionalismo. No entanto, não nos responsabilizamos por circunstâncias fora 
-              do nosso controlo, incluindo condições meteorológicas adversas ou casos de força maior.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.responsibilities.title}</h2>
+            <p className="text-muted-foreground">{t.terms.responsibilities.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">5. Comportamento dos Clientes</h2>
-            <p className="text-muted-foreground">
-              Os clientes devem comportar-se de forma adequada durante os serviços. 
-              Reservamo-nos o direito de recusar ou terminar serviços em caso de comportamento 
-              inadequado, sem direito a reembolso.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.behavior.title}</h2>
+            <p className="text-muted-foreground">{t.terms.behavior.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">6. Modificações</h2>
-            <p className="text-muted-foreground">
-              A JaraTravels reserva-se o direito de modificar estes termos e condições a 
-              qualquer momento. As alterações entrarão em vigor imediatamente após a sua 
-              publicação no website.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.modifications.title}</h2>
+            <p className="text-muted-foreground">{t.terms.modifications.text}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">7. Lei Aplicável</h2>
-            <p className="text-muted-foreground">
-              Estes termos e condições são regidos pela lei portuguesa. Qualquer litígio 
-              será submetido aos tribunais competentes em Portugal.
-            </p>
+            <h2 className="text-2xl font-semibold mb-4">{t.terms.applicableLaw.title}</h2>
+            <p className="text-muted-foreground">{t.terms.applicableLaw.text}</p>
           </section>
         </div>
       </main>
