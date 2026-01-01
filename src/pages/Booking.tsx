@@ -179,6 +179,27 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
+      // Check rate limit first
+      const { data: rateLimitData, error: rateLimitError } = await supabase.functions.invoke('check-rate-limit', {
+        body: { 
+          identifier: formData.email,
+          action: 'booking',
+          maxAttempts: 5,
+          windowMinutes: 60
+        }
+      });
+
+      if (rateLimitError) {
+        console.error("Rate limit check error:", rateLimitError);
+      }
+
+      if (rateLimitData && !rateLimitData.allowed) {
+        const retryMinutes = Math.ceil((rateLimitData.retry_after || 3600) / 60);
+        toast.error(`Demasiadas tentativas. Por favor, aguarde ${retryMinutes} minutos antes de tentar novamente.`);
+        setIsSubmitting(false);
+        return;
+      }
+
       const validatedData = bookingSchema.parse(formData);
       
       const bookingData = {
