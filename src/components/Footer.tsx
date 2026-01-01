@@ -50,7 +50,7 @@ const Footer = () => {
               className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
               <Smartphone className="w-4 h-4" />
-              Instalar App
+              {t.footer.installApp}
             </Link>
           </div>
 
