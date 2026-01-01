@@ -3,11 +3,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-admin-key",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
-
-// Simple admin key validation (stored as secret)
-const ADMIN_KEY = Deno.env.get("ADMIN_KEY");
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight
@@ -16,18 +13,43 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Validate admin key
-    const adminKey = req.headers.get("x-admin-key");
-    if (!adminKey || adminKey !== ADMIN_KEY) {
+    // Get the authorization header
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      console.log("No authorization header provided");
       return new Response(
         JSON.stringify({ error: "Unauthorized" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
-    // Create Supabase client with service role
+    const token = authHeader.replace("Bearer ", "");
+
+    // Create Supabase client with the user's token to verify auth
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    
+    // Verify the user's JWT token
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    });
+
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
+
+    if (authError || !user) {
+      console.log("Auth error:", authError?.message || "No user found");
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    console.log(`Authenticated user: ${user.email}`);
+
+    // Use service role client for database operations
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const url = new URL(req.url);

@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Lock, RefreshCw, Trash2, Calendar, Users, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowLeft, RefreshCw, Trash2, Calendar, Users, Mail, Phone, MessageSquare, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,61 +40,38 @@ interface Booking {
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [adminKey, setAdminKey] = useState("");
+  const { user, session, isLoading: authLoading, signOut } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!adminKey.trim()) {
-      toast.error("Please enter the admin key");
-      return;
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth");
     }
-    
-    // Store key and try to fetch bookings to validate
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('admin-bookings', {
-        headers: { 'x-admin-key': adminKey }
-      });
-
-      if (error || data?.error) {
-        toast.error("Invalid admin key");
-        setIsLoading(false);
-        return;
-      }
-
-      setIsAuthenticated(true);
-      setBookings(data.bookings || []);
-      sessionStorage.setItem("adminKey", adminKey);
-      toast.success("Login successful");
-    } catch (err) {
-      toast.error("Authentication failed");
-    }
-    setIsLoading(false);
-  };
+  }, [user, authLoading, navigate]);
 
   const fetchBookings = async () => {
-    const key = sessionStorage.getItem("adminKey") || adminKey;
-    if (!key) return;
+    if (!session) return;
 
     setIsLoading(true);
     try {
       const url = statusFilter !== "all" ? `?status=${statusFilter}` : "";
       const { data, error } = await supabase.functions.invoke(`admin-bookings${url}`, {
-        headers: { 'x-admin-key': key }
+        headers: { 
+          Authorization: `Bearer ${session.access_token}`
+        }
       });
 
       if (error || data?.error) {
         if (data?.error === "Unauthorized") {
-          setIsAuthenticated(false);
-          sessionStorage.removeItem("adminKey");
-          toast.error("Session expired");
+          toast.error("Sessão expirada. Por favor, faça login novamente.");
+          await signOut();
+          navigate("/auth");
         } else {
-          toast.error("Failed to fetch bookings");
+          toast.error("Erro ao carregar reservas");
         }
         setIsLoading(false);
         return;
@@ -102,69 +79,65 @@ const Admin = () => {
 
       setBookings(data.bookings || []);
     } catch (err) {
-      toast.error("Failed to fetch bookings");
+      toast.error("Erro ao carregar reservas");
     }
     setIsLoading(false);
   };
 
   const updateStatus = async (id: string, newStatus: string) => {
-    const key = sessionStorage.getItem("adminKey");
-    if (!key) return;
+    if (!session) return;
 
     try {
       const { data, error } = await supabase.functions.invoke('admin-bookings', {
         method: 'PATCH',
-        headers: { 'x-admin-key': key },
+        headers: { Authorization: `Bearer ${session.access_token}` },
         body: { id, status: newStatus }
       });
 
       if (error || data?.error) {
-        toast.error("Failed to update status");
+        toast.error("Erro ao atualizar estado");
         return;
       }
 
       setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
-      toast.success("Status updated");
+      toast.success("Estado atualizado");
     } catch (err) {
-      toast.error("Failed to update status");
+      toast.error("Erro ao atualizar estado");
     }
   };
 
   const deleteBooking = async (id: string) => {
-    const key = sessionStorage.getItem("adminKey");
-    if (!key) return;
+    if (!session) return;
 
     try {
       const { data, error } = await supabase.functions.invoke(`admin-bookings?id=${id}`, {
         method: 'DELETE',
-        headers: { 'x-admin-key': key }
+        headers: { Authorization: `Bearer ${session.access_token}` }
       });
 
       if (error || data?.error) {
-        toast.error("Failed to delete booking");
+        toast.error("Erro ao eliminar reserva");
         return;
       }
 
       setBookings(prev => prev.filter(b => b.id !== id));
-      toast.success("Booking deleted");
+      toast.success("Reserva eliminada");
     } catch (err) {
-      toast.error("Failed to delete booking");
+      toast.error("Erro ao eliminar reserva");
     }
   };
 
-  useEffect(() => {
-    const savedKey = sessionStorage.getItem("adminKey");
-    if (savedKey) {
-      setAdminKey(savedKey);
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const handleLogout = async () => {
+    await signOut();
+    toast.success("Logout efetuado");
+    navigate("/auth");
+  };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user && session) {
       fetchBookings();
     }
-  }, [isAuthenticated, statusFilter]);
+  }, [user, session, statusFilter]);
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
@@ -173,13 +146,19 @@ const Admin = () => {
       cancelled: "destructive",
       completed: "outline"
     };
-    return <Badge variant={variants[status] || "secondary"}>{status}</Badge>;
+    const labels: Record<string, string> = {
+      pending: "Pendente",
+      confirmed: "Confirmado",
+      cancelled: "Cancelado",
+      completed: "Concluído"
+    };
+    return <Badge variant={variants[status] || "secondary"}>{labels[status] || status}</Badge>;
   };
 
   const getPaymentLabel = (method: string) => {
     const labels: Record<string, string> = {
       "mbway": "MBWay",
-      "bank-transfer": "Bank Transfer",
+      "bank-transfer": "Transferência",
       "paypal": "PayPal"
     };
     return labels[method] || method;
@@ -193,47 +172,18 @@ const Admin = () => {
     });
   };
 
-  if (!isAuthenticated) {
+  // Show loading while checking auth
+  if (authLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Lock className="w-6 h-6 text-primary" />
-            </div>
-            <CardTitle>Admin Access</CardTitle>
-            <CardDescription>Enter your admin key to access the dashboard</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="adminKey">Admin Key</Label>
-                <Input
-                  id="adminKey"
-                  type="password"
-                  value={adminKey}
-                  onChange={(e) => setAdminKey(e.target.value)}
-                  placeholder="Enter admin key"
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Verifying..." : "Login"}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={() => navigate("/")}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
+  }
+
+  // Don't render if not authenticated
+  if (!user) {
+    return null;
   }
 
   return (
@@ -249,7 +199,10 @@ const Admin = () => {
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-2xl font-bold">Bookings Dashboard</h1>
+            <div>
+              <h1 className="text-2xl font-bold">Painel de Reservas</h1>
+              <p className="text-sm text-muted-foreground">{user.email}</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -259,18 +212,15 @@ const Admin = () => {
               disabled={isLoading}
             >
               <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
-              Refresh
+              Atualizar
             </Button>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => {
-                sessionStorage.removeItem("adminKey");
-                setIsAuthenticated(false);
-                setAdminKey("");
-              }}
+              onClick={handleLogout}
             >
-              Logout
+              <LogOut className="w-4 h-4 mr-2" />
+              Sair
             </Button>
           </div>
         </div>
@@ -282,7 +232,7 @@ const Admin = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="text-2xl font-bold">{bookings.length}</div>
-              <p className="text-sm text-muted-foreground">Total Bookings</p>
+              <p className="text-sm text-muted-foreground">Total</p>
             </CardContent>
           </Card>
           <Card>
@@ -290,7 +240,7 @@ const Admin = () => {
               <div className="text-2xl font-bold text-yellow-600">
                 {bookings.filter(b => b.status === "pending").length}
               </div>
-              <p className="text-sm text-muted-foreground">Pending</p>
+              <p className="text-sm text-muted-foreground">Pendentes</p>
             </CardContent>
           </Card>
           <Card>
@@ -298,7 +248,7 @@ const Admin = () => {
               <div className="text-2xl font-bold text-green-600">
                 {bookings.filter(b => b.status === "confirmed").length}
               </div>
-              <p className="text-sm text-muted-foreground">Confirmed</p>
+              <p className="text-sm text-muted-foreground">Confirmados</p>
             </CardContent>
           </Card>
           <Card>
@@ -306,24 +256,24 @@ const Admin = () => {
               <div className="text-2xl font-bold text-blue-600">
                 {bookings.filter(b => b.status === "completed").length}
               </div>
-              <p className="text-sm text-muted-foreground">Completed</p>
+              <p className="text-sm text-muted-foreground">Concluídos</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Filter */}
         <div className="flex items-center gap-4 mb-6">
-          <Label>Filter by status:</Label>
+          <Label>Filtrar por estado:</Label>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="confirmed">Confirmed</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="pending">Pendentes</SelectItem>
+              <SelectItem value="confirmed">Confirmados</SelectItem>
+              <SelectItem value="cancelled">Cancelados</SelectItem>
+              <SelectItem value="completed">Concluídos</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -331,26 +281,26 @@ const Admin = () => {
         {/* Bookings Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Bookings</CardTitle>
-            <CardDescription>Manage all tour bookings</CardDescription>
+            <CardTitle>Reservas</CardTitle>
+            <CardDescription>Gerir todas as reservas de tours</CardDescription>
           </CardHeader>
           <CardContent>
             {bookings.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
-                No bookings found
+                Nenhuma reserva encontrada
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Service</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Participants</TableHead>
-                      <TableHead>Payment</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>Cliente</TableHead>
+                      <TableHead>Serviço</TableHead>
+                      <TableHead>Data</TableHead>
+                      <TableHead>Participantes</TableHead>
+                      <TableHead>Pagamento</TableHead>
+                      <TableHead>Estado</TableHead>
+                      <TableHead>Ações</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -397,10 +347,10 @@ const Admin = () => {
                               <SelectValue>{getStatusBadge(booking.status)}</SelectValue>
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="confirmed">Confirmed</SelectItem>
-                              <SelectItem value="cancelled">Cancelled</SelectItem>
-                              <SelectItem value="completed">Completed</SelectItem>
+                              <SelectItem value="pending">Pendente</SelectItem>
+                              <SelectItem value="confirmed">Confirmado</SelectItem>
+                              <SelectItem value="cancelled">Cancelado</SelectItem>
+                              <SelectItem value="completed">Concluído</SelectItem>
                             </SelectContent>
                           </Select>
                         </TableCell>
@@ -411,7 +361,7 @@ const Admin = () => {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setSelectedBooking(booking)}
-                                title="View message"
+                                title="Ver mensagem"
                               >
                                 <MessageSquare className="w-4 h-4" />
                               </Button>
@@ -424,18 +374,18 @@ const Admin = () => {
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
-                                  <AlertDialogTitle>Delete Booking</AlertDialogTitle>
+                                  <AlertDialogTitle>Eliminar Reserva</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete this booking from {booking.name}? This action cannot be undone.
+                                    Tem a certeza que pretende eliminar a reserva de {booking.name}? Esta ação não pode ser revertida.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => deleteBooking(booking.id)}
                                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                   >
-                                    Delete
+                                    Eliminar
                                   </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
@@ -456,13 +406,13 @@ const Admin = () => {
           <AlertDialog open={!!selectedBooking} onOpenChange={() => setSelectedBooking(null)}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Message from {selectedBooking.name}</AlertDialogTitle>
+                <AlertDialogTitle>Mensagem de {selectedBooking.name}</AlertDialogTitle>
                 <AlertDialogDescription className="whitespace-pre-wrap">
                   {selectedBooking.message}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Close</AlertDialogCancel>
+                <AlertDialogCancel>Fechar</AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
