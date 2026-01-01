@@ -10,17 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-
-const bookingSchema = z.object({
-  name: z.string().trim().min(1, "Nome é obrigatório").max(100),
-  email: z.string().trim().email("Email inválido").max(255),
-  phone: z.string().trim().min(9, "Telefone inválido").max(20),
-  service: z.string().min(1, "Selecione um serviço"),
-  date: z.string().min(1, "Data é obrigatória"),
-  participants: z.string().min(1, "Número de participantes é obrigatório"),
-  paymentMethod: z.string().min(1, "Selecione um método de pagamento"),
-  message: z.string().max(1000).optional(),
-});
+import { useLanguage } from "@/i18n";
 
 const services = [
   {
@@ -157,6 +147,7 @@ const services = [
 
 const Booking = () => {
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
   const [selectedService, setSelectedService] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -172,6 +163,17 @@ const Booking = () => {
 
   const selectedServiceData = services.find(s => s.id === selectedService);
 
+  const bookingSchema = z.object({
+    name: z.string().trim().min(1, t.booking.fullName + " *").max(100),
+    email: z.string().trim().email(t.booking.email + " *").max(255),
+    phone: z.string().trim().min(9, t.booking.phone + " *").max(20),
+    service: z.string().min(1, t.booking.service + " *"),
+    date: z.string().min(1, t.booking.preferredDate + " *"),
+    participants: z.string().min(1, t.booking.participants + " *"),
+    paymentMethod: z.string().min(1, t.booking.paymentMethod + " *"),
+    message: z.string().max(1000).optional(),
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -179,7 +181,6 @@ const Booking = () => {
     try {
       const validatedData = bookingSchema.parse(formData);
       
-      // Preparar dados para a página de confirmação
       const bookingData = {
         name: validatedData.name,
         email: validatedData.email,
@@ -193,7 +194,6 @@ const Booking = () => {
         message: validatedData.message
       };
 
-      // Enviar notificação por email
       try {
         const { error } = await supabase.functions.invoke('send-booking-notification', {
           body: bookingData
@@ -206,19 +206,17 @@ const Booking = () => {
         }
       } catch (emailError) {
         console.error("Failed to send email notification:", emailError);
-        // Continua mesmo se o email falhar
       }
       
-      // Redirecionar para página de confirmação com os dados
       navigate("/confirmacao", { state: bookingData });
       
-      toast.success("Reserva enviada com sucesso!");
+      toast.success(t.booking.bookingSuccess);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
         toast.error(firstError.message);
       } else {
-        toast.error("Erro ao enviar reserva. Tente novamente.");
+        toast.error(t.booking.bookingError);
       }
       setIsSubmitting(false);
     }
@@ -237,7 +235,7 @@ const Booking = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-2xl font-bold text-foreground">Reserve sua Experiência</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t.booking.title}</h1>
         </div>
       </header>
 
@@ -249,10 +247,10 @@ const Booking = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex-1">
                   <h3 className="text-xl font-bold mb-2 text-foreground">
-                    Reserva Instantânea via GetYourGuide
+                    {t.booking.getYourGuideTitle}
                   </h3>
                   <p className="text-muted-foreground">
-                    Reserve agora o nosso tour guiado a pé pelo Seixal com degustação de pastel de nata através da GetYourGuide - confirmação imediata!
+                    {t.booking.getYourGuideDesc}
                   </p>
                 </div>
                 <Button
@@ -260,7 +258,7 @@ const Booking = () => {
                   onClick={() => window.open("https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D", "_blank")}
                   className="bg-primary hover:bg-primary/90 whitespace-nowrap"
                 >
-                  Reservar no GetYourGuide
+                  {t.booking.bookOnGetYourGuide}
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </Button>
               </div>
@@ -272,9 +270,9 @@ const Booking = () => {
           {/* Services Info */}
           <div className="space-y-6">
             <div>
-              <h2 className="text-3xl font-bold mb-2 text-foreground">Nossos Serviços</h2>
+              <h2 className="text-3xl font-bold mb-2 text-foreground">{t.booking.ourServices}</h2>
               <p className="text-muted-foreground">
-                Escolha a experiência perfeita para você
+                {t.booking.chooseExperience}
               </p>
             </div>
 
@@ -318,7 +316,7 @@ const Booking = () => {
                     
                     {selectedService === service.id && (
                       <div className="space-y-2 pt-4 border-t border-border/50">
-                        <p className="font-semibold text-sm text-foreground">O que está incluído:</p>
+                        <p className="font-semibold text-sm text-foreground">{t.booking.whatsIncluded}</p>
                         <ul className="space-y-1">
                           {service.included.map((item, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -337,28 +335,28 @@ const Booking = () => {
             {/* Additional Info */}
             <Card className="border-border/50">
               <CardHeader>
-                <CardTitle className="text-lg">Informações Importantes</CardTitle>
+                <CardTitle className="text-lg">{t.booking.importantInfo}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-muted-foreground">
                 <div className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-foreground">Ponto de Encontro</p>
-                    <p>Seixal, Portugal (local exato será confirmado)</p>
+                    <p className="font-semibold text-foreground">{t.booking.meetingPoint}</p>
+                    <p>{t.booking.meetingPointDesc}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <Users className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-foreground">Grupos</p>
-                    <p>Exclusivo até 10 pessoas por grupo. Desconto para grupos acima de 6 pessoas</p>
+                    <p className="font-semibold text-foreground">{t.booking.groups}</p>
+                    <p>{t.booking.groupsDesc}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
                   <Calendar className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-foreground">Cancelamento</p>
-                    <p>Cancelamento gratuito até 24h antes</p>
+                    <p className="font-semibold text-foreground">{t.booking.cancellation}</p>
+                    <p>{t.booking.cancellationDesc}</p>
                   </div>
                 </div>
               </CardContent>
@@ -369,38 +367,38 @@ const Booking = () => {
           <div>
             <Card className="border-border/50 sticky top-24">
               <CardHeader>
-                <CardTitle>Formulário de Reserva</CardTitle>
+                <CardTitle>{t.booking.formTitle}</CardTitle>
                 <CardDescription>
-                  Preencha os dados abaixo para realizar sua reserva
+                  {t.booking.formSubtitle}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nome Completo *</Label>
+                    <Label htmlFor="name">{t.booking.fullName} *</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Seu nome"
+                      placeholder={t.contact.name}
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t.booking.email} *</Label>
                     <Input
                       id="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="seu@email.com"
+                      placeholder={t.contact.email}
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Telefone *</Label>
+                    <Label htmlFor="phone">{t.booking.phone} *</Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -412,7 +410,7 @@ const Booking = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="service">Serviço *</Label>
+                    <Label htmlFor="service">{t.booking.service} *</Label>
                     <Select
                       value={formData.service}
                       onValueChange={(value) => {
@@ -422,7 +420,7 @@ const Booking = () => {
                       required
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione um serviço" />
+                        <SelectValue placeholder={t.booking.selectService} />
                       </SelectTrigger>
                       <SelectContent>
                         {services.map((service) => (
@@ -435,7 +433,7 @@ const Booking = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="date">Data Preferida *</Label>
+                    <Label htmlFor="date">{t.booking.preferredDate} *</Label>
                     <Input
                       id="date"
                       type="date"
@@ -447,32 +445,32 @@ const Booking = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="participants">Número de Participantes *</Label>
+                    <Label htmlFor="participants">{t.booking.participants} *</Label>
                     <Input
                       id="participants"
                       type="number"
                       min="1"
                       value={formData.participants}
                       onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
-                      placeholder="Ex: 2"
+                      placeholder={t.booking.participantsPlaceholder}
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="paymentMethod">Método de Pagamento *</Label>
+                    <Label htmlFor="paymentMethod">{t.booking.paymentMethod} *</Label>
                     <Select
                       value={formData.paymentMethod}
                       onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
                       required
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione método de pagamento" />
+                        <SelectValue placeholder={t.booking.selectPaymentMethod} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="mbway">MBWay</SelectItem>
-                        <SelectItem value="bank-transfer">Transferência Bancária</SelectItem>
-                        <SelectItem value="paypal">PayPal</SelectItem>
+                        <SelectItem value="mbway">{t.booking.mbway}</SelectItem>
+                        <SelectItem value="bank-transfer">{t.booking.bankTransfer}</SelectItem>
+                        <SelectItem value="paypal">{t.booking.paypal}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -483,12 +481,12 @@ const Booking = () => {
                         <div className="flex items-start gap-3">
                           <CreditCard className="w-5 h-5 text-primary mt-0.5" />
                           <div className="space-y-2">
-                            <p className="font-semibold text-sm text-foreground">Pagamento via MBWay</p>
+                            <p className="font-semibold text-sm text-foreground">{t.booking.mbwayInfo}</p>
                             <p className="text-sm text-muted-foreground">
-                              Após confirmar a reserva, enviaremos uma solicitação MBWay para o número de telefone fornecido.
+                              {t.booking.mbwayDesc}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              <span className="font-medium text-foreground">Número MBWay:</span> {formData.phone || "Por favor, preencha o seu telefone acima"}
+                              <span className="font-medium text-foreground">{t.booking.mbwayNumber}</span> {formData.phone || t.booking.fillPhoneFirst}
                             </p>
                           </div>
                         </div>
@@ -502,23 +500,23 @@ const Booking = () => {
                         <div className="flex items-start gap-3">
                           <CreditCard className="w-5 h-5 text-primary mt-0.5" />
                           <div className="space-y-3">
-                            <p className="font-semibold text-sm text-foreground">Dados para Transferência Bancária</p>
+                            <p className="font-semibold text-sm text-foreground">{t.booking.bankTransferInfo}</p>
                             <div className="space-y-2 text-sm">
                               <div>
-                                <span className="font-medium text-foreground">IBAN:</span>
+                                <span className="font-medium text-foreground">{t.booking.iban}</span>
                                 <p className="text-muted-foreground font-mono">PT50 0000 0000 0000 0000 0000 0</p>
                               </div>
                               <div>
-                                <span className="font-medium text-foreground">Titular:</span>
+                                <span className="font-medium text-foreground">{t.booking.holder}</span>
                                 <p className="text-muted-foreground">Jara Travels</p>
                               </div>
                               <div>
-                                <span className="font-medium text-foreground">Banco:</span>
+                                <span className="font-medium text-foreground">{t.booking.bank}</span>
                                 <p className="text-muted-foreground">Banco Exemplo</p>
                               </div>
                               <div>
-                                <span className="font-medium text-foreground">Referência:</span>
-                                <p className="text-muted-foreground">Por favor, indique o seu nome na descrição da transferência</p>
+                                <span className="font-medium text-foreground">{t.booking.reference}</span>
+                                <p className="text-muted-foreground">{t.booking.referenceDesc}</p>
                               </div>
                             </div>
                           </div>
@@ -533,12 +531,12 @@ const Booking = () => {
                         <div className="flex items-start gap-3">
                           <CreditCard className="w-5 h-5 text-primary mt-0.5" />
                           <div className="space-y-2">
-                            <p className="font-semibold text-sm text-foreground">Pagamento via PayPal</p>
+                            <p className="font-semibold text-sm text-foreground">{t.booking.paypalInfo}</p>
                             <p className="text-sm text-muted-foreground">
-                              Após confirmar a reserva, enviaremos um link de pagamento PayPal para o email fornecido.
+                              {t.booking.paypalDesc}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              <span className="font-medium text-foreground">Email para PayPal:</span> {formData.email || "Por favor, preencha o seu email acima"}
+                              <span className="font-medium text-foreground">{t.booking.paypalEmail}</span> {formData.email || t.booking.fillEmailFirst}
                             </p>
                           </div>
                         </div>
@@ -547,12 +545,12 @@ const Booking = () => {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Mensagem Adicional</Label>
+                    <Label htmlFor="message">{t.booking.additionalMessage}</Label>
                     <Textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Alguma informação adicional ou pedido especial?"
+                      placeholder={t.booking.additionalMessagePlaceholder}
                       rows={4}
                     />
                   </div>
@@ -562,16 +560,16 @@ const Booking = () => {
                     className="w-full"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Enviando..." : "Confirmar Reserva"}
+                    {isSubmitting ? t.booking.submitting : t.booking.confirmBooking}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    Ao enviar, você concorda com nossos termos de serviço e política de privacidade
+                    {t.booking.termsAgreement}
                   </p>
 
                   <div className="pt-4 border-t border-border/50">
                     <p className="text-sm text-center text-muted-foreground mb-3">
-                      Ou reserve diretamente via GetYourGuide
+                      {t.booking.orBookVia}
                     </p>
                     <Button
                       type="button"

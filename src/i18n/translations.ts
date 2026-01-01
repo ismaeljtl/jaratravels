@@ -289,6 +289,110 @@ export const translations = {
       next: "Próximo",
       close: "Fechar",
     },
+    // Privacy
+    privacy: {
+      title: "Política de Privacidade",
+      intro: {
+        title: "1. Introdução",
+        text: "A JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) respeita a sua privacidade e está comprometida em proteger os seus dados pessoais. Esta política explica como recolhemos, usamos e protegemos as suas informações.",
+      },
+      dataCollected: {
+        title: "2. Dados Recolhidos",
+        text: "Recolhemos os seguintes tipos de informação:",
+        items: [
+          "Nome completo e informações de contacto (email, telefone)",
+          "Informações de pagamento necessárias para processar reservas",
+          "Preferências de viagem e requisitos especiais",
+          "Dados de navegação no website (cookies e análises)",
+        ],
+      },
+      dataUsage: {
+        title: "3. Utilização dos Dados",
+        text: "Os seus dados são utilizados para:",
+        items: [
+          "Processar e confirmar reservas",
+          "Comunicar sobre os serviços contratados",
+          "Melhorar os nossos serviços e experiência do cliente",
+          "Cumprir obrigações legais e regulatórias",
+          "Enviar informações promocionais (apenas com consentimento)",
+        ],
+      },
+      dataSharing: {
+        title: "4. Partilha de Dados",
+        text: "Não vendemos os seus dados pessoais. Podemos partilhar informações com parceiros de confiança (como a GetYourGuide) apenas quando necessário para prestar os serviços solicitados. Todos os parceiros são obrigados a proteger os seus dados.",
+      },
+      dataSecurity: {
+        title: "5. Segurança dos Dados",
+        text: "Implementamos medidas de segurança técnicas e organizacionais adequadas para proteger os seus dados contra acesso não autorizado, perda ou destruição. As transações de pagamento são processadas através de plataformas seguras.",
+      },
+      yourRights: {
+        title: "6. Os Seus Direitos",
+        text: "De acordo com o RGPD, tem direito a:",
+        items: [
+          "Aceder aos seus dados pessoais",
+          "Corrigir dados incorretos ou incompletos",
+          "Solicitar a eliminação dos seus dados",
+          "Opor-se ao processamento dos seus dados",
+          "Solicitar a portabilidade dos dados",
+          "Retirar o consentimento a qualquer momento",
+        ],
+      },
+      cookies: {
+        title: "7. Cookies",
+        text: "O nosso website utiliza cookies para melhorar a sua experiência de navegação e analisar o tráfego do site. Pode configurar o seu navegador para recusar cookies, mas isso pode afetar algumas funcionalidades do website.",
+      },
+      dataRetention: {
+        title: "8. Retenção de Dados",
+        text: "Mantemos os seus dados pessoais apenas pelo tempo necessário para cumprir as finalidades descritas nesta política ou conforme exigido por lei.",
+      },
+      contact: {
+        title: "9. Contacto",
+        text: "Para exercer os seus direitos ou esclarecer dúvidas sobre esta política de privacidade, contacte-nos através de jaratravels@hotmail.com.",
+      },
+      changes: {
+        title: "10. Alterações à Política",
+        text: "Reservamo-nos o direito de atualizar esta política de privacidade. Quaisquer alterações serão publicadas nesta página com a data da última atualização.",
+        lastUpdate: "Última atualização:",
+      },
+    },
+    // Terms
+    terms: {
+      title: "Termos e Condições",
+      general: {
+        title: "1. Informações Gerais",
+        text: "A JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) oferece serviços de turismo e animação turística no Seixal, Distrito de Setúbal, Portugal Continental. Ao utilizar os nossos serviços, concorda com os presentes termos e condições.",
+      },
+      reservations: {
+        title: "2. Reservas e Pagamentos",
+        text: "As reservas podem ser efetuadas através do nosso website ou parceiros autorizados. O pagamento integral é necessário para confirmar a reserva. Aceitamos os métodos de pagamento indicados no processo de reserva.",
+      },
+      cancellations: {
+        title: "3. Cancelamentos e Reembolsos",
+        text: "Os cancelamentos devem ser comunicados com antecedência mínima de 24 horas. Cancelamentos com menos de 24 horas de antecedência não terão direito a reembolso. As políticas específicas podem variar consoante o tipo de serviço contratado.",
+      },
+      responsibilities: {
+        title: "4. Responsabilidades",
+        text: "A JaraTravels compromete-se a prestar os serviços contratados com qualidade e profissionalismo. No entanto, não nos responsabilizamos por circunstâncias fora do nosso controlo, incluindo condições meteorológicas adversas ou casos de força maior.",
+      },
+      behavior: {
+        title: "5. Comportamento dos Clientes",
+        text: "Os clientes devem comportar-se de forma adequada durante os serviços. Reservamo-nos o direito de recusar ou terminar serviços em caso de comportamento inadequado, sem direito a reembolso.",
+      },
+      modifications: {
+        title: "6. Modificações",
+        text: "A JaraTravels reserva-se o direito de modificar estes termos e condições a qualquer momento. As alterações entrarão em vigor imediatamente após a sua publicação no website.",
+      },
+      applicableLaw: {
+        title: "7. Lei Aplicável",
+        text: "Estes termos e condições são regidos pela lei portuguesa. Qualquer litígio será submetido aos tribunais competentes em Portugal.",
+      },
+    },
+    // NotFound
+    notFound: {
+      title: "404",
+      message: "Ops! Página não encontrada",
+      backHome: "Voltar ao Início",
+    },
   },
   en: {
     // Navigation
@@ -578,6 +682,110 @@ export const translations = {
       next: "Next",
       close: "Close",
     },
+    // Privacy
+    privacy: {
+      title: "Privacy Policy",
+      intro: {
+        title: "1. Introduction",
+        text: "JaraTravels (RNAAT Nº598/2025 - Tourism of Portugal) respects your privacy and is committed to protecting your personal data. This policy explains how we collect, use and protect your information.",
+      },
+      dataCollected: {
+        title: "2. Data Collected",
+        text: "We collect the following types of information:",
+        items: [
+          "Full name and contact information (email, phone)",
+          "Payment information necessary to process reservations",
+          "Travel preferences and special requirements",
+          "Website browsing data (cookies and analytics)",
+        ],
+      },
+      dataUsage: {
+        title: "3. Data Usage",
+        text: "Your data is used to:",
+        items: [
+          "Process and confirm reservations",
+          "Communicate about contracted services",
+          "Improve our services and customer experience",
+          "Comply with legal and regulatory obligations",
+          "Send promotional information (only with consent)",
+        ],
+      },
+      dataSharing: {
+        title: "4. Data Sharing",
+        text: "We do not sell your personal data. We may share information with trusted partners (such as GetYourGuide) only when necessary to provide requested services. All partners are required to protect your data.",
+      },
+      dataSecurity: {
+        title: "5. Data Security",
+        text: "We implement appropriate technical and organizational security measures to protect your data against unauthorized access, loss or destruction. Payment transactions are processed through secure platforms.",
+      },
+      yourRights: {
+        title: "6. Your Rights",
+        text: "Under GDPR, you have the right to:",
+        items: [
+          "Access your personal data",
+          "Correct incorrect or incomplete data",
+          "Request deletion of your data",
+          "Object to processing of your data",
+          "Request data portability",
+          "Withdraw consent at any time",
+        ],
+      },
+      cookies: {
+        title: "7. Cookies",
+        text: "Our website uses cookies to improve your browsing experience and analyze site traffic. You can configure your browser to refuse cookies, but this may affect some website functionality.",
+      },
+      dataRetention: {
+        title: "8. Data Retention",
+        text: "We keep your personal data only for as long as necessary to fulfill the purposes described in this policy or as required by law.",
+      },
+      contact: {
+        title: "9. Contact",
+        text: "To exercise your rights or clarify questions about this privacy policy, contact us at jaratravels@hotmail.com.",
+      },
+      changes: {
+        title: "10. Policy Changes",
+        text: "We reserve the right to update this privacy policy. Any changes will be published on this page with the date of the last update.",
+        lastUpdate: "Last update:",
+      },
+    },
+    // Terms
+    terms: {
+      title: "Terms and Conditions",
+      general: {
+        title: "1. General Information",
+        text: "JaraTravels (RNAAT Nº598/2025 - Tourism of Portugal) offers tourism and tourist entertainment services in Seixal, Setúbal District, Continental Portugal. By using our services, you agree to these terms and conditions.",
+      },
+      reservations: {
+        title: "2. Reservations and Payments",
+        text: "Reservations can be made through our website or authorized partners. Full payment is required to confirm the reservation. We accept the payment methods indicated in the booking process.",
+      },
+      cancellations: {
+        title: "3. Cancellations and Refunds",
+        text: "Cancellations must be communicated at least 24 hours in advance. Cancellations with less than 24 hours notice will not be entitled to a refund. Specific policies may vary depending on the type of service contracted.",
+      },
+      responsibilities: {
+        title: "4. Responsibilities",
+        text: "JaraTravels is committed to providing contracted services with quality and professionalism. However, we are not responsible for circumstances beyond our control, including adverse weather conditions or force majeure.",
+      },
+      behavior: {
+        title: "5. Customer Behavior",
+        text: "Customers must behave appropriately during services. We reserve the right to refuse or terminate services in case of inappropriate behavior, without the right to a refund.",
+      },
+      modifications: {
+        title: "6. Modifications",
+        text: "JaraTravels reserves the right to modify these terms and conditions at any time. Changes will take effect immediately upon publication on the website.",
+      },
+      applicableLaw: {
+        title: "7. Applicable Law",
+        text: "These terms and conditions are governed by Portuguese law. Any dispute will be submitted to the competent courts in Portugal.",
+      },
+    },
+    // NotFound
+    notFound: {
+      title: "404",
+      message: "Oops! Page not found",
+      backHome: "Return to Home",
+    },
   },
   es: {
     // Navigation
@@ -866,6 +1074,110 @@ export const translations = {
       back: "Volver",
       next: "Siguiente",
       close: "Cerrar",
+    },
+    // Privacy
+    privacy: {
+      title: "Política de Privacidad",
+      intro: {
+        title: "1. Introducción",
+        text: "JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) respeta su privacidad y está comprometida en proteger sus datos personales. Esta política explica cómo recopilamos, usamos y protegemos su información.",
+      },
+      dataCollected: {
+        title: "2. Datos Recopilados",
+        text: "Recopilamos los siguientes tipos de información:",
+        items: [
+          "Nombre completo e información de contacto (email, teléfono)",
+          "Información de pago necesaria para procesar reservas",
+          "Preferencias de viaje y requisitos especiales",
+          "Datos de navegación en el sitio web (cookies y análisis)",
+        ],
+      },
+      dataUsage: {
+        title: "3. Uso de Datos",
+        text: "Sus datos se utilizan para:",
+        items: [
+          "Procesar y confirmar reservas",
+          "Comunicar sobre los servicios contratados",
+          "Mejorar nuestros servicios y experiencia del cliente",
+          "Cumplir con obligaciones legales y regulatorias",
+          "Enviar información promocional (solo con consentimiento)",
+        ],
+      },
+      dataSharing: {
+        title: "4. Compartir Datos",
+        text: "No vendemos sus datos personales. Podemos compartir información con socios de confianza (como GetYourGuide) solo cuando sea necesario para prestar los servicios solicitados. Todos los socios están obligados a proteger sus datos.",
+      },
+      dataSecurity: {
+        title: "5. Seguridad de Datos",
+        text: "Implementamos medidas de seguridad técnicas y organizativas apropiadas para proteger sus datos contra acceso no autorizado, pérdida o destrucción. Las transacciones de pago se procesan a través de plataformas seguras.",
+      },
+      yourRights: {
+        title: "6. Sus Derechos",
+        text: "Según el RGPD, tiene derecho a:",
+        items: [
+          "Acceder a sus datos personales",
+          "Corregir datos incorrectos o incompletos",
+          "Solicitar la eliminación de sus datos",
+          "Oponerse al procesamiento de sus datos",
+          "Solicitar la portabilidad de datos",
+          "Retirar el consentimiento en cualquier momento",
+        ],
+      },
+      cookies: {
+        title: "7. Cookies",
+        text: "Nuestro sitio web utiliza cookies para mejorar su experiencia de navegación y analizar el tráfico del sitio. Puede configurar su navegador para rechazar cookies, pero esto puede afectar algunas funcionalidades del sitio web.",
+      },
+      dataRetention: {
+        title: "8. Retención de Datos",
+        text: "Mantenemos sus datos personales solo durante el tiempo necesario para cumplir con los propósitos descritos en esta política o según lo exija la ley.",
+      },
+      contact: {
+        title: "9. Contacto",
+        text: "Para ejercer sus derechos o aclarar dudas sobre esta política de privacidad, contáctenos a través de jaratravels@hotmail.com.",
+      },
+      changes: {
+        title: "10. Cambios en la Política",
+        text: "Nos reservamos el derecho de actualizar esta política de privacidad. Cualquier cambio se publicará en esta página con la fecha de la última actualización.",
+        lastUpdate: "Última actualización:",
+      },
+    },
+    // Terms
+    terms: {
+      title: "Términos y Condiciones",
+      general: {
+        title: "1. Información General",
+        text: "JaraTravels (RNAAT Nº598/2025 - Turismo de Portugal) ofrece servicios de turismo y animación turística en Seixal, Distrito de Setúbal, Portugal Continental. Al utilizar nuestros servicios, acepta estos términos y condiciones.",
+      },
+      reservations: {
+        title: "2. Reservas y Pagos",
+        text: "Las reservas se pueden realizar a través de nuestro sitio web o socios autorizados. El pago completo es necesario para confirmar la reserva. Aceptamos los métodos de pago indicados en el proceso de reserva.",
+      },
+      cancellations: {
+        title: "3. Cancelaciones y Reembolsos",
+        text: "Las cancelaciones deben comunicarse con al menos 24 horas de anticipación. Las cancelaciones con menos de 24 horas de antelación no tendrán derecho a reembolso. Las políticas específicas pueden variar según el tipo de servicio contratado.",
+      },
+      responsibilities: {
+        title: "4. Responsabilidades",
+        text: "JaraTravels se compromete a prestar los servicios contratados con calidad y profesionalismo. Sin embargo, no nos hacemos responsables por circunstancias fuera de nuestro control, incluidas condiciones climáticas adversas o casos de fuerza mayor.",
+      },
+      behavior: {
+        title: "5. Comportamiento del Cliente",
+        text: "Los clientes deben comportarse adecuadamente durante los servicios. Nos reservamos el derecho de rechazar o terminar servicios en caso de comportamiento inapropiado, sin derecho a reembolso.",
+      },
+      modifications: {
+        title: "6. Modificaciones",
+        text: "JaraTravels se reserva el derecho de modificar estos términos y condiciones en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en el sitio web.",
+      },
+      applicableLaw: {
+        title: "7. Ley Aplicable",
+        text: "Estos términos y condiciones se rigen por la ley portuguesa. Cualquier disputa será sometida a los tribunales competentes en Portugal.",
+      },
+    },
+    // NotFound
+    notFound: {
+      title: "404",
+      message: "¡Ups! Página no encontrada",
+      backHome: "Volver al Inicio",
     },
   },
 };
