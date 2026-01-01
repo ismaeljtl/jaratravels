@@ -58,10 +58,13 @@ const Admin = () => {
 
     setIsLoading(true);
     try {
-      const url = statusFilter !== "all" ? `?status=${statusFilter}` : "";
-      const { data, error } = await supabase.functions.invoke(`admin-bookings${url}`, {
+      const { data, error } = await supabase.functions.invoke('admin-bookings', {
         headers: { 
           Authorization: `Bearer ${session.access_token}`
+        },
+        body: { 
+          action: 'fetch',
+          status: statusFilter !== "all" ? statusFilter : undefined
         }
       });
 
@@ -89,9 +92,8 @@ const Admin = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke('admin-bookings', {
-        method: 'PATCH',
         headers: { Authorization: `Bearer ${session.access_token}` },
-        body: { id, status: newStatus }
+        body: { action: 'update', id, status: newStatus }
       });
 
       if (error || data?.error) {
@@ -110,9 +112,9 @@ const Admin = () => {
     if (!session) return;
 
     try {
-      const { data, error } = await supabase.functions.invoke(`admin-bookings?id=${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${session.access_token}` }
+      const { data, error } = await supabase.functions.invoke('admin-bookings', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+        body: { action: 'delete', id }
       });
 
       if (error || data?.error) {

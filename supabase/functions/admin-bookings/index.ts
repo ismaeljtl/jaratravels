@@ -52,12 +52,21 @@ const handler = async (req: Request): Promise<Response> => {
     // Use service role client for database operations
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const url = new URL(req.url);
-    const method = req.method;
+    // Parse body for POST requests
+    let body: any = {};
+    if (req.method === "POST") {
+      try {
+        body = await req.json();
+      } catch {
+        body = {};
+      }
+    }
 
-    // GET - Fetch all bookings
-    if (method === "GET") {
-      const status = url.searchParams.get("status");
+    const action = body.action || "fetch"; // Default action is fetch
+
+    // POST with action: "fetch" - Fetch all bookings
+    if (req.method === "POST" && action === "fetch") {
+      const status = body.status;
       
       let query = supabase
         .from("bookings")
@@ -84,9 +93,9 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // PATCH - Update booking status
-    if (method === "PATCH") {
-      const { id, status } = await req.json();
+    // POST with action: "update" - Update booking status
+    if (req.method === "POST" && action === "update") {
+      const { id, status } = body;
 
       if (!id || !status) {
         return new Response(
@@ -124,9 +133,9 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // DELETE - Delete a booking
-    if (method === "DELETE") {
-      const id = url.searchParams.get("id");
+    // POST with action: "delete" - Delete a booking
+    if (req.method === "POST" && action === "delete") {
+      const { id } = body;
 
       if (!id) {
         return new Response(
@@ -155,8 +164,8 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     return new Response(
-      JSON.stringify({ error: "Method not allowed" }),
-      { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      JSON.stringify({ error: "Invalid action" }),
+      { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error: any) {
     console.error("Error in admin-bookings function:", error);
