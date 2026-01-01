@@ -11,6 +11,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n";
+import TurnstileCaptcha from "@/components/TurnstileCaptcha";
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "";
 
 const services = [
   {
@@ -160,6 +163,7 @@ const Booking = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const selectedServiceData = services.find(s => s.id === selectedService);
 
@@ -179,6 +183,27 @@ const Booking = () => {
     setIsSubmitting(true);
 
     try {
+      // Verify CAPTCHA first (only if site key is configured)
+      if (TURNSTILE_SITE_KEY && !captchaToken) {
+        toast.error("Por favor, complete a verificação de segurança.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Verify CAPTCHA with server if token exists
+      if (TURNSTILE_SITE_KEY && captchaToken) {
+        const { data: captchaResult, error: captchaError } = await supabase.functions.invoke('verify-captcha', {
+          body: { token: captchaToken }
+        });
+
+        if (captchaError || !captchaResult?.success) {
+          toast.error("Verificação de segurança falhou. Tente novamente.");
+          setCaptchaToken(null);
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       const validatedData = bookingSchema.parse(formData);
       
       const bookingData = {
@@ -581,10 +606,23 @@ const Booking = () => {
                     />
                   </div>
 
+                  {/* CAPTCHA */}
+                  {TURNSTILE_SITE_KEY && (
+                    <div className="space-y-2">
+                      <Label>Verificação de Segurança *</Label>
+                      <TurnstileCaptcha
+                        siteKey={TURNSTILE_SITE_KEY}
+                        onVerify={(token) => setCaptchaToken(token)}
+                        onExpire={() => setCaptchaToken(null)}
+                        onError={() => setCaptchaToken(null)}
+                      />
+                    </div>
+                  )}
+
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (TURNSTILE_SITE_KEY && !captchaToken)}
                   >
                     {isSubmitting ? t.booking.submitting : t.booking.confirmBooking}
                   </Button>
