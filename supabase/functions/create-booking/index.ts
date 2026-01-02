@@ -17,6 +17,7 @@ interface BookingRequest {
   participants: number;
   paymentMethod: string;
   message?: string;
+  website?: string; // Honeypot field
 }
 
 serve(async (req) => {
@@ -33,6 +34,16 @@ serve(async (req) => {
     const body: BookingRequest = await req.json();
 
     console.log('Booking request received for:', body.email);
+
+    // 0. Check honeypot field (spam protection)
+    if (body.website && body.website.trim() !== '') {
+      console.log('Honeypot triggered - likely bot submission');
+      // Return success to not alert bots, but don't process
+      return new Response(
+        JSON.stringify({ success: true, bookingId: crypto.randomUUID() }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // 1. Validate required fields
     if (!body.name || !body.email || !body.phone || !body.serviceName || 

@@ -159,7 +159,8 @@ const Booking = () => {
     date: "",
     participants: "",
     paymentMethod: "",
-    message: ""
+    message: "",
+    website: "" // Honeypot field - should remain empty
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -194,6 +195,7 @@ const Booking = () => {
         participants: parseInt(validatedData.participants, 10),
         paymentMethod: validatedData.paymentMethod,
         message: validatedData.message,
+        website: formData.website, // Honeypot field
       };
 
       // Use the secure create-booking edge function
@@ -387,6 +389,20 @@ const Booking = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Honeypot field - hidden from users, bots will fill it */}
+                  <div className="absolute -left-[9999px] opacity-0 h-0 w-0 overflow-hidden" aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      value={formData.website}
+                      onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="name">{t.booking.fullName} *</Label>
                     <Input
