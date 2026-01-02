@@ -12,8 +12,9 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useEffect } from "react";
 
-const TURNSTILE_SITE_KEY = "0x4AAAAAABfcJGCrwvhBLYa4";
+// Will be fetched from secrets
 
 const services = [
   {
@@ -164,9 +165,29 @@ const Booking = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   const selectedServiceData = services.find(s => s.id === selectedService);
+
+  // Fetch Turnstile site key on mount
+  useEffect(() => {
+    const fetchTurnstileKey = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-turnstile-key');
+        if (error) {
+          console.error('Error fetching Turnstile key:', error);
+          return;
+        }
+        if (data?.siteKey) {
+          setTurnstileSiteKey(data.siteKey);
+        }
+      } catch (err) {
+        console.error('Failed to fetch Turnstile key:', err);
+      }
+    };
+    fetchTurnstileKey();
+  }, []);
 
   const bookingSchema = z.object({
     name: z.string().trim().min(1, t.booking.fullName + " *").max(100),
@@ -586,22 +607,24 @@ const Booking = () => {
                   </div>
 
                   {/* Turnstile Security Widget */}
-                  <div className="flex justify-center">
-                    <Turnstile
-                      ref={turnstileRef}
-                      siteKey={TURNSTILE_SITE_KEY}
-                      onSuccess={(token) => setTurnstileToken(token)}
-                      onError={() => {
-                        setTurnstileToken(null);
-                        toast.error("Erro na verificação de segurança. Tente novamente.");
-                      }}
-                      onExpire={() => setTurnstileToken(null)}
-                      options={{
-                        theme: 'auto',
-                        size: 'normal'
-                      }}
-                    />
-                  </div>
+                  {turnstileSiteKey && (
+                    <div className="flex justify-center">
+                      <Turnstile
+                        ref={turnstileRef}
+                        siteKey={turnstileSiteKey}
+                        onSuccess={(token) => setTurnstileToken(token)}
+                        onError={() => {
+                          setTurnstileToken(null);
+                          toast.error("Erro na verificação de segurança. Tente novamente.");
+                        }}
+                        onExpire={() => setTurnstileToken(null)}
+                        options={{
+                          theme: 'auto',
+                          size: 'normal'
+                        }}
+                      />
+                    </div>
+                  )}
 
                   <Button
                     type="submit"
