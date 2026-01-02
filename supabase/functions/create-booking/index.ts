@@ -17,71 +17,6 @@ interface BookingRequest {
   participants: number;
   paymentMethod: string;
   message?: string;
-  turnstileToken: string;
-}
-
-function isValidIp(ip: string | null | undefined): ip is string {
-  if (!ip) return false;
-  const v = ip.trim();
-
-  // IPv4
-  const parts = v.split(".");
-  if (parts.length === 4) {
-    const ok = parts.every((p) => {
-      if (!/^\d+$/.test(p)) return false;
-      const n = Number(p);
-      return n >= 0 && n <= 255;
-    });
-    if (ok) return true;
-  }
-
-  // Basic IPv6 check
-  if (v.includes(":") && /^[0-9a-fA-F:]+$/.test(v)) return true;
-
-  return false;
-}
-
-async function verifyTurnstile(token: string, ip?: string | null): Promise<boolean> {
-  const secretKey = Deno.env.get('TURNSTILE_SECRET_KEY');
-
-  if (!secretKey) {
-    console.error('TURNSTILE_SECRET_KEY not configured');
-    return false;
-  }
-
-  try {
-    const params = new URLSearchParams({
-      secret: secretKey,
-      response: token,
-    });
-
-    // remoteip is optional; sending an invalid value can make verification fail
-    if (isValidIp(ip)) {
-      params.set('remoteip', ip);
-    }
-
-    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: params,
-    });
-
-    const result = await response.json();
-    const errorCodes = result?.['error-codes'] ?? result?.error_codes;
-
-    console.log('Turnstile verification:', {
-      success: result?.success === true,
-      errorCodes,
-      hasIp: isValidIp(ip),
-    });
-
-    return result?.success === true;
-  } catch (error) {
-    console.error('Turnstile verification error:', error);
-    return false;
-  }
 }
 
 serve(async (req) => {
@@ -96,9 +31,6 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body: BookingRequest = await req.json();
-    const forwardedFor = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-    const cfIp = req.headers.get('cf-connecting-ip')?.trim();
-    const clientIP = isValidIp(forwardedFor) ? forwardedFor : (isValidIp(cfIp) ? cfIp : null);
 
     console.log('Booking request received for:', body.email);
 
@@ -131,25 +63,7 @@ serve(async (req) => {
       );
     }
 
-    // 4. Verify Turnstile token
-    if (!body.turnstileToken) {
-      console.error('Missing Turnstile token');
-      return new Response(
-        JSON.stringify({ error: 'Please complete the security verification' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const isTurnstileValid = await verifyTurnstile(body.turnstileToken, clientIP);
-    if (!isTurnstileValid) {
-      console.error('Turnstile verification failed');
-      return new Response(
-        JSON.stringify({ error: 'Security verification failed. Please try again.' }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // 5. Check rate limit
+    // 4. Check rate limit
     const { data: rateLimitData, error: rateLimitError } = await supabase
       .rpc('check_rate_limit', {
         p_identifier: body.email,
