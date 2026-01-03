@@ -497,31 +497,11 @@ const Booking = () => {
                         <SelectValue placeholder={t.booking.selectPaymentMethod} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="mbway">{t.booking.mbway}</SelectItem>
                         <SelectItem value="bank-transfer">{t.booking.bankTransfer}</SelectItem>
                         <SelectItem value="paypal">{t.booking.paypal}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-
-                  {formData.paymentMethod === "mbway" && (
-                    <Card className="bg-muted/50 border-border/50">
-                      <CardContent className="pt-6">
-                        <div className="flex items-start gap-3">
-                          <CreditCard className="w-5 h-5 text-primary mt-0.5" />
-                          <div className="space-y-2">
-                            <p className="font-semibold text-sm text-foreground">{t.booking.mbwayInfo}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {t.booking.mbwayDesc}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              <span className="font-medium text-foreground">{t.booking.mbwayNumber}</span> {formData.phone || t.booking.fillPhoneFirst}
-                            </p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )}
 
                   {formData.paymentMethod === "bank-transfer" && (
                     <Card className="bg-muted/50 border-border/50">
