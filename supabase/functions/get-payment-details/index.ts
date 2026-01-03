@@ -45,7 +45,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Validate payment method
-    const validMethods = ["mbway", "bank-transfer", "paypal"];
+    const validMethods = ["bank-transfer", "paypal"];
     if (!validMethods.includes(paymentMethod)) {
       return new Response(
         JSON.stringify({ error: "Invalid payment method" }),
@@ -62,11 +62,6 @@ const handler = async (req: Request): Promise<Response> => {
           iban: PAYMENT_DETAILS.bankTransfer.iban,
           holder: PAYMENT_DETAILS.bankTransfer.holder,
           bank: PAYMENT_DETAILS.bankTransfer.bank,
-        };
-        break;
-      case "mbway":
-        paymentInfo = {
-          phone: PAYMENT_DETAILS.mbway.phone,
         };
         break;
       case "paypal":

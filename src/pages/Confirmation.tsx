@@ -73,7 +73,6 @@ const Confirmation = () => {
 
   const getPaymentMethodLabel = (method: string) => {
     switch (method) {
-      case "mbway": return "MBWay";
       case "bank-transfer": return t.booking.bankTransfer;
       case "paypal": return "PayPal";
       default: return method;
@@ -215,24 +214,6 @@ const Confirmation = () => {
                 </div>
               ) : (
                 <>
-                  {bookingData.paymentMethod === "mbway" && paymentInfo?.phone && (
-                    <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2">
-                      <p className="font-medium text-foreground">{t.confirmation.mbwayInstructions}</p>
-                      <div className="flex justify-between items-center p-2 bg-background rounded">
-                        <span className="text-muted-foreground">{t.confirmation.phone}:</span>
-                        <span className="font-mono font-medium text-foreground">{paymentInfo.phone}</span>
-                      </div>
-                      <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                        <li>{t.confirmation.mbwayStep1}</li>
-                        <li>{t.confirmation.mbwayStep2.replace("{price}", bookingData.servicePrice)}</li>
-                        <li>{t.confirmation.mbwayStep3}</li>
-                      </ol>
-                      <p className="text-xs text-muted-foreground pt-2">
-                        {t.confirmation.mbwayNote}
-                      </p>
-                    </div>
-                  )}
-
                   {bookingData.paymentMethod === "bank-transfer" && paymentInfo?.iban && (
                     <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-3">
                       <p className="font-medium text-foreground">{t.confirmation.bankTransferData}</p>
