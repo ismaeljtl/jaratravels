@@ -477,7 +477,7 @@ export const translations = {
         },
         {
           title: "Seixal Medieval",
-          description: "Step back in time with a medieval-themed tour.",
+          description: "Seixal, land of navigators and noble estates, come feel the weight of history and enjoy one of the activities of yesteryear, such as historical fencing",
         },
         {
           title: "Boatrip Seixal",
@@ -900,7 +900,7 @@ export const translations = {
         },
         {
           title: "Seixal Medieval",
-          description: "Retroceda en el tiempo con un tour temático medieval.",
+          description: "Seixal, tierra de navegantes y fincas señoriales, venga a sentir el peso de la historia y disfrute de una de las actividades de antaño, como la esgrima histórica",
         },
         {
           title: "Boatrip Seixal",
