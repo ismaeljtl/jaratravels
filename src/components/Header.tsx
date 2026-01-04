@@ -66,7 +66,7 @@ const Header = () => {
             </button>
             
             {/* Partner Logos - Desktop */}
-            <div className="hidden lg:flex items-center gap-4 ml-3 pl-4 border-l border-border/30">
+            <div className="hidden md:flex items-center gap-4 ml-3 pl-4 border-l border-border/30">
               <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-8 w-auto" />
               </a>
