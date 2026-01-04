@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Euro } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 // Tour images
 import villaGardensImg from "@/assets/tours/villa-gardens.jpg";
@@ -29,9 +30,10 @@ const tourData = [
 
 const Tours = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  const handleBookNow = () => {
+    navigate("/booking");
   };
 
   const getCategoryLabel = (category: string) => {
@@ -98,7 +100,7 @@ const Tours = () => {
                   </div>
                 </div>
                 <Button 
-                  onClick={scrollToContact}
+                  onClick={handleBookNow}
                   className="w-full bg-primary hover:bg-primary/90"
                 >
                   {t.tours.bookNow}
