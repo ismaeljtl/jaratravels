@@ -33,7 +33,7 @@ const Tours = () => {
   const navigate = useNavigate();
 
   const handleBookNow = () => {
-    navigate("/booking");
+    navigate("/reservas");
   };
 
   const getCategoryLabel = (category: string) => {
