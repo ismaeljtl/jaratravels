@@ -66,7 +66,7 @@ export const translations = {
         },
         {
           title: "Setúbal & Arrábida",
-          description: "Arrábida é uma reserva natural protegida classificada pela UNESCO cuja história está escrita nas pedras, e a qualidade de vida pode ser sentida no ar, paisagem única e almoço típico com chocos fritos.",
+          description: "Arrábida é uma reserva natural protegida classificada pela UNESCO cuja história está escrita nas pedras, e a qualidade de vida pode ser sentida no ar, com uma paisagem única e almoço típico \"Choco frito\"",
         },
         {
           title: "Azeitão Vineyard Tour & Wine Tasting",
