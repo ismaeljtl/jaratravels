@@ -54,7 +54,7 @@ export const translations = {
         },
         {
           title: "Seixal Medieval",
-          description: "Volte no tempo com um tour temático medieval.",
+          description: "Seixal, terra de navegadores e quintas senhorias, venha sentir o peso da história e desfrute de uma das actividades de outrora, como a esgrima histórica",
         },
         {
           title: "Boatrip Seixal",
