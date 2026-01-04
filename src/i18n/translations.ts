@@ -489,7 +489,7 @@ export const translations = {
         },
         {
           title: "Setúbal & Arrábida",
-          description: "Arrábida is a protected natural reserve classified by UNESCO whose history is written in the stones, and quality of life can be felt in the air, unique landscape and typical lunch with fried cuttlefish.",
+          description: "Arrábida is a protected natural reserve classified by UNESCO… unique landscape and the traditional dish \"Choco Frito\" (fried cuttlefish)",
         },
         {
           title: "Azeitão Vineyard Tour & Wine Tasting",

@@ -86,7 +86,7 @@ const services = [
   {
     id: "setubal-arrabida",
     name: "Setúbal & Arrábida",
-    description: "Arrábida is a protected natural reserve classified by UNESCO… unique landscape and typical lunch fried cuttlefish",
+    description: "Arrábida is a protected natural reserve classified by UNESCO… unique landscape and the traditional dish \"Choco Frito\" (fried cuttlefish)",
     price: "80€",
     duration: "4h",
     included: [
