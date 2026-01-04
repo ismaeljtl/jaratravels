@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import LanguageSelector from "./LanguageSelector";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logoImg from "@/assets/logo.png";
-import turismoPortugalLogo from "@/assets/partners/turismo-portugal.png";
+import turismoPortugalLogo from "@/assets/partners/turismo-portugal.jpg";
 import getYourGuideLogo from "@/assets/partners/getyourguide.png";
 
 const Header = () => {
