@@ -50,7 +50,7 @@ export const translations = {
         },
         {
           title: "Tour Instax Photos",
-          description: "Tire fotos polaroid instantâneas enquanto descobre joias locais.",
+          description: "Tire fotos polaroid instantâneas enquanto descobre jóias locais.",
         },
         {
           title: "Seixal Medieval",
