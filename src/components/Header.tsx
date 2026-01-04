@@ -70,7 +70,7 @@ const Header = () => {
               <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-8 w-auto" />
               </a>
-              <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={getYourGuideLogo} alt="GetYourGuide" className="h-6 w-auto" />
               </a>
             </div>
@@ -139,7 +139,7 @@ const Header = () => {
                 <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
                   <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
                 </a>
-                <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
                   <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
                 </a>
               </div>
