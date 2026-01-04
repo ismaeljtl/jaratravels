@@ -7,6 +7,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import logoImg from "@/assets/logo.png";
 import turismoPortugalLogo from "@/assets/partners/turismo-portugal.jpg";
 import getYourGuideLogo from "@/assets/partners/getyourguide.png";
+import withlocalsLogo from "@/assets/partners/withlocals.svg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -72,6 +73,9 @@ const Header = () => {
               </a>
               <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={getYourGuideLogo} alt="GetYourGuide" className="h-6 w-auto" />
+              </a>
+              <a href="https://www.withlocals.com/es/experience/time-travel-in-lisbon-s-south-bay-500889ca/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <img src={withlocalsLogo} alt="Withlocals" className="h-6 w-auto" />
               </a>
             </div>
           </div>
@@ -141,6 +145,9 @@ const Header = () => {
                 </a>
                 <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
                   <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
+                </a>
+                <a href="https://www.withlocals.com/es/experience/time-travel-in-lisbon-s-south-bay-500889ca/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                  <img src={withlocalsLogo} alt="Withlocals" className="h-4 w-auto" />
                 </a>
               </div>
               <div className="px-4 pt-2">
