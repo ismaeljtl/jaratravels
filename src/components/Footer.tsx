@@ -2,6 +2,7 @@ import { Instagram, Mail, FileText, Shield, BookOpen, Smartphone } from "lucide-
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Link } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
+import CookieSettings from "./CookieSettings";
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -52,6 +53,7 @@ const Footer = () => {
               <Smartphone className="w-4 h-4" />
               {t.footer.installApp}
             </Link>
+            <CookieSettings />
           </div>
 
           <div className="flex flex-col gap-4">
