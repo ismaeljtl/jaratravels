@@ -23,7 +23,7 @@ export const translations = {
       title: "Os nossos Serviços",
       subtitle: "Oferecemos experiências de viagem completas, desde tours guiados até eventos personalizados",
       guidedTours: "Tours Guiados",
-      guidedToursDesc: "Explore destinos incríveis com guias especializados e roteiros cuidadosamente planeados",
+      guidedToursDesc: "Explore destinos incríveis com um guia especializado e roteiros cuidadosamente planeados",
       customTrips: "Passeios Personalizados",
       customTripsDesc: "Experiências únicas adaptadas aos seus interesses e preferências",
       specialEvents: "Eventos Especiais",
