@@ -134,6 +134,15 @@ const Header = () => {
               <div className="px-4 py-2">
                 <LanguageSelector />
               </div>
+              {/* Partner Logos - Mobile */}
+              <div className="flex items-center gap-4 px-4 py-3 border-t border-border/30 mt-2">
+                <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                  <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
+                </a>
+                <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                  <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
+                </a>
+              </div>
               <div className="px-4 pt-2">
                 <Button
                   onClick={() => {
