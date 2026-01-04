@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=5.0,viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Withlocals" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#FFFBF8" />
+    <meta name="color-scheme" content="only light" />
+    <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width" />
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+
+    <meta
+      name="facebook-domain-verification"
+      content="9bz34avwbxlf41y63o6hj2ij49r589"
+    />
+
+    <title>Withlocals</title>
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <link rel="preconnect" href="https://withlocals-com-res.cloudinary.com" />
+
+    <style>
+      .before-app-loaded {
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: before-app-loaded-animation 2s ease-out 220ms infinite;
+        opacity: 0;
+      }
+
+      @keyframes before-app-loaded-animation {
+        from {
+          opacity: 0.6;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      html,
+      body,
+      #root {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-7t497lQb.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-GckoRmHz.js">
+    <link rel="modulepreload" crossorigin href="/assets/lodash.throttle-BTz6ipbu.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dropzone-CuL2qVbZ.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-visibility-sensor-nsaomFyy.js">
+    <link rel="modulepreload" crossorigin href="/assets/lodash.debounce-Ct3TbJFQ.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-intersection-observer-RBOAShGb.js">
+    <link rel="modulepreload" crossorigin href="/assets/random-seed-554rXcFw.js">
+    <link rel="modulepreload" crossorigin href="/assets/prismic-javascript-Bf3O3b_i.js">
+    <link rel="modulepreload" crossorigin href="/assets/prismic-reactjs-E0fOiagD.js">
+    <link rel="modulepreload" crossorigin href="/assets/ical.js-cbgQS8GM.js">
+    <link rel="modulepreload" crossorigin href="/assets/date-fns-tz-Bivva2-B.js">
+    <link rel="modulepreload" crossorigin href="/assets/common-QxIRP2ph.js">
+    <link rel="stylesheet" crossorigin href="/assets/common-DEyJoG_C.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-DKOSisZ7.css">
+  <link rel="manifest" href="/manifest.webmanifest"></head>
+  <body>
+    <div id="reactContainer">
+      <div class="before-app-loaded">
+        <svg
+          width="96"
+          height="64"
+          viewBox="0 0 85 45"
+          aria-label="Withlocals logo"
+        >
+          <defs>
+            <linearGradient
+              x1="-1.11022302e-14%"
+              y1="50%"
+              x2="100%"
+              y2="50%"
+              id="linearGradientLogo-1"
+            >
+              <stop stop-color="#E71575" offset="0%"></stop>
+              <stop stop-color="#A21880" offset="100%"></stop>
+            </linearGradient>
+          </defs>
+          <g fill="url(#linearGradientLogo-1)">
+            <path
+              d="M55.674,20.3265 C53.9295,20.3265 52.5165,18.912 52.5165,17.1675 C52.5165,15.423 53.9295,14.0085 55.674,14.0085 C57.42,14.0085 58.8345,15.423 58.8345,17.1675 C58.8345,18.912 57.42,20.3265 55.674,20.3265 Z M61.8285,0 C74.181,0 84.195,10.0125 84.195,22.3665 C84.195,34.7175 74.181,44.7315 61.8285,44.7315 C54.4545,44.7315 47.9145,41.163 43.839,35.6595 C45.0165,33.762 45.9435,31.713 46.5825,29.568 C49.284,35.2755 55.095,39.225 61.8285,39.225 C71.139,39.225 78.687,31.677 78.687,22.3665 C78.687,13.0545 71.139,5.5065 61.8285,5.5065 C53.034,5.5065 45.8115,12.2415 45.039,20.8335 C44.997,21.3645 44.9535,21.8745 44.9055,22.3665 C44.718,23.916 44.5125,25.626 44.1075,27.639 C41.7375,37.446 32.9025,44.7315 22.3665,44.7315 C10.014,44.7315 0,34.7175 0,22.3665 C0,10.0125 10.014,0 22.3665,0 C29.7405,0 36.2805,3.5685 40.356,9.072 C39.1785,10.9695 38.2515,13.0185 37.6125,15.1635 C34.911,9.456 29.1,5.5065 22.3665,5.5065 C13.056,5.5065 5.508,13.0545 5.508,22.3665 C5.508,31.677 13.056,39.225 22.3665,39.225 C31.161,39.225 38.382,32.4915 39.156,23.898 C39.198,23.367 39.2415,22.857 39.2895,22.3665 C39.477,20.814 39.6825,19.1055 40.0875,17.0925 C42.4575,7.284 51.2925,0 61.8285,0 Z M52.0155,25.1955 C52.0155,24.7275 52.434,24.345 52.947,24.345 L70.674,24.345 C71.1855,24.345 71.6055,24.7275 71.6055,25.1955 C71.6055,30.606 67.2195,34.992 61.8105,34.992 C56.4,34.992 52.0155,30.606 52.0155,25.1955 Z M70.656,17.1675 C70.656,18.912 69.2415,20.3265 67.497,20.3265 C65.7525,20.3265 64.338,18.912 64.338,17.1675 C64.338,15.423 65.7525,14.0085 67.497,14.0085 C69.2415,14.0085 70.656,15.423 70.656,17.1675 Z M12.5715,25.1955 C12.5715,24.7275 12.99,24.345 13.503,24.345 L31.23,24.345 C31.7415,24.345 32.1615,24.7275 32.1615,25.1955 C32.1615,30.606 27.7755,34.992 22.3665,34.992 C16.9575,34.992 12.5715,30.606 12.5715,25.1955 Z M31.5285,17.1675 C31.5285,18.912 30.114,20.3265 28.3695,20.3265 C26.625,20.3265 25.2105,18.912 25.2105,17.1675 C25.2105,15.423 26.625,14.0085 28.3695,14.0085 C30.114,14.0085 31.5285,15.423 31.5285,17.1675 Z M16.548,20.3265 C14.802,20.3265 13.3875,18.912 13.3875,17.1675 C13.3875,15.423 14.802,14.0085 16.548,14.0085 C18.2925,14.0085 19.7055,15.423 19.7055,17.1675 C19.7055,18.912 18.2925,20.3265 16.548,20.3265 Z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div id="overlay-container"></div>
+
+    <script>
+      window.cloudinary_config = { private_cdn: true, responsive: false };
+    </script>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.analBuffer = window.analBuffer || [];
+      if (window.PerformanceObserver && window.requestIdleCallback) {
+        var observer = new PerformanceObserver(function (list) {
+          var entries = list.getEntries();
+          for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            var metricName = entry.name;
+            var time = Math.round(entry.startTime + entry.duration);
+            var payload = {
+              event: 'event',
+              payload: {
+                eventCategory: 'Performance Metrics',
+                eventAction: metricName,
+                eventValue: time,
+              },
+            };
+            window.requestIdleCallback(function () {
+              window.dataLayer && window.dataLayer.push(payload);
+            });
+            window.requestIdleCallback(function () {
+              window.analBuffer.push(payload);
+            });
+          }
+        });
+        try {
+          observer.observe({ entryTypes: ['paint'] });
+        } catch (e) {}
+      }
+    </script>
+  </body>
+</html>
