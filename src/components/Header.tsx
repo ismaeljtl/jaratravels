@@ -7,7 +7,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import logoImg from "@/assets/logo.png";
 import turismoPortugalLogo from "@/assets/partners/turismo-portugal.jpg";
 import getYourGuideLogo from "@/assets/partners/getyourguide.png";
-import withlocalsLogo from "@/assets/partners/withlocals.svg";
+import withlocalsLogo from "@/assets/partners/withlocals.png";
 
 const Header = () => {
   const navigate = useNavigate();
