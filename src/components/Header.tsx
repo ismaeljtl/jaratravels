@@ -58,7 +58,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <button
               onClick={() => navigate("/")}
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -66,16 +66,16 @@ const Header = () => {
               <img src={logoImg} alt="JaraTravels" className="h-10 md:h-12 w-auto" />
             </button>
             
-            {/* Partner Logos - Desktop */}
-            <div className="hidden md:flex items-center gap-3 ml-3 pl-4 border-l border-border/30">
+            {/* Partner Logos - Always visible */}
+            <div className="flex items-center gap-2 md:gap-3 ml-1 md:ml-3 pl-2 md:pl-4 border-l border-border/30">
               <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
+                <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-4 md:h-5 w-auto" />
               </a>
               <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
+                <img src={getYourGuideLogo} alt="GetYourGuide" className="h-3 md:h-4 w-auto" />
               </a>
               <a href="https://www.withlocals.com/es/experience/time-travel-in-lisbon-s-south-bay-500889ca/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={withlocalsLogo} alt="Withlocals" className="h-4 w-auto" />
+                <img src={withlocalsLogo} alt="Withlocals" className="h-3 md:h-4 w-auto" />
               </a>
             </div>
           </div>
@@ -137,18 +137,6 @@ const Header = () => {
               ))}
               <div className="px-4 py-2">
                 <LanguageSelector />
-              </div>
-              {/* Partner Logos - Mobile */}
-              <div className="flex items-center gap-4 px-4 py-3 border-t border-border/30 mt-2">
-                <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
-                  <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
-                </a>
-                <a href="https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
-                  <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
-                </a>
-                <a href="https://www.withlocals.com/es/experience/time-travel-in-lisbon-s-south-bay-500889ca/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
-                  <img src={withlocalsLogo} alt="Withlocals" className="h-4 w-auto" />
-                </a>
               </div>
               <div className="px-4 pt-2">
                 <Button
