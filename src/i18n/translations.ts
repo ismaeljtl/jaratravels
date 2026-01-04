@@ -16,11 +16,11 @@ export const translations = {
       title: "JaraTravels",
       subtitle: "Descubra experiências inesquecíveis através dos nossos tours, passeios e eventos exclusivos",
       bookNow: "Reserve Agora",
-      ourServices: "Nossos Serviços",
+      ourServices: "Os nossos Serviços",
     },
     // Services
     services: {
-      title: "Nossos Serviços",
+      title: "Os nossos Serviços",
       subtitle: "Oferecemos experiências de viagem completas, desde tours guiados até eventos personalizados",
       guidedTours: "Tours Guiados",
       guidedToursDesc: "Explore destinos incríveis com guias especializados e roteiros cuidadosamente planeados",
@@ -210,7 +210,7 @@ export const translations = {
       getYourGuideTitle: "Reserva Instantânea via GetYourGuide",
       getYourGuideDesc: "Reserve agora o nosso tour guiado a pé pelo Seixal com degustação de pastel de nata através da GetYourGuide - confirmação imediata!",
       bookOnGetYourGuide: "Reservar no GetYourGuide",
-      ourServices: "Nossos Serviços",
+      ourServices: "Os nossos Serviços",
       chooseExperience: "Escolha a experiência perfeita para você",
       whatsIncluded: "O que está incluído:",
       importantInfo: "Informações Importantes",
