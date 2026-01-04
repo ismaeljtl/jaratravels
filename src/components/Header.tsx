@@ -66,12 +66,12 @@ const Header = () => {
             </button>
             
             {/* Partner Logos - Desktop */}
-            <div className="hidden lg:flex items-center gap-3 ml-2 pl-4 border-l border-border/30">
-              <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
+            <div className="hidden lg:flex items-center gap-4 ml-3 pl-4 border-l border-border/30">
+              <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-8 w-auto" />
               </a>
-              <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
-                <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
+              <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                <img src={getYourGuideLogo} alt="GetYourGuide" className="h-6 w-auto" />
               </a>
             </div>
           </div>
