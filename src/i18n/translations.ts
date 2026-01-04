@@ -177,6 +177,19 @@ export const translations = {
       languages: "Falamos",
       copyright: "Todos os direitos reservados.",
       installApp: "Instalar App",
+      cookieSettings: "Preferências de Cookies",
+    },
+    cookieSettings: {
+      title: "Preferências de Cookies",
+      description: "Gerir as suas preferências de cookies para este site.",
+      currentStatus: "Estado atual",
+      accepted: "Aceites",
+      declined: "Recusados",
+      notSet: "Não definido",
+      info: "Utilizamos cookies para melhorar a sua experiência de navegação e analisar o tráfego do site.",
+      accept: "Aceitar",
+      decline: "Recusar",
+      reset: "Repor",
     },
     // Install
     install: {
@@ -600,6 +613,19 @@ export const translations = {
       languages: "We speak",
       copyright: "All rights reserved.",
       installApp: "Install App",
+      cookieSettings: "Cookie Preferences",
+    },
+    cookieSettings: {
+      title: "Cookie Preferences",
+      description: "Manage your cookie preferences for this website.",
+      currentStatus: "Current status",
+      accepted: "Accepted",
+      declined: "Declined",
+      notSet: "Not set",
+      info: "We use cookies to improve your browsing experience and analyze site traffic.",
+      accept: "Accept",
+      decline: "Decline",
+      reset: "Reset",
     },
     // Install
     install: {
@@ -1023,6 +1049,19 @@ export const translations = {
       languages: "Hablamos",
       copyright: "Todos los derechos reservados.",
       installApp: "Instalar App",
+      cookieSettings: "Preferencias de Cookies",
+    },
+    cookieSettings: {
+      title: "Preferencias de Cookies",
+      description: "Gestiona tus preferencias de cookies para este sitio.",
+      currentStatus: "Estado actual",
+      accepted: "Aceptadas",
+      declined: "Rechazadas",
+      notSet: "No definido",
+      info: "Utilizamos cookies para mejorar tu experiencia de navegación y analizar el tráfico del sitio.",
+      accept: "Aceptar",
+      decline: "Rechazar",
+      reset: "Restablecer",
     },
     // Install
     install: {
