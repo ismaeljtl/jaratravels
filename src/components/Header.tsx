@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import LanguageSelector from "./LanguageSelector";
 import { useLanguage } from "@/i18n/LanguageContext";
 import logoImg from "@/assets/logo.png";
+import turismoPortugalLogo from "@/assets/partners/turismo-portugal.png";
+import getYourGuideLogo from "@/assets/partners/getyourguide.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -55,12 +57,24 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <img src={logoImg} alt="JaraTravels" className="h-10 md:h-12 w-auto" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <img src={logoImg} alt="JaraTravels" className="h-10 md:h-12 w-auto" />
+            </button>
+            
+            {/* Partner Logos - Desktop */}
+            <div className="hidden lg:flex items-center gap-3 ml-2 pl-4 border-l border-border/30">
+              <a href="https://www.turismodeportugal.pt" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                <img src={turismoPortugalLogo} alt="Turismo de Portugal" className="h-5 w-auto" />
+              </a>
+              <a href="https://www.getyourguide.com" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 transition-opacity">
+                <img src={getYourGuideLogo} alt="GetYourGuide" className="h-4 w-auto" />
+              </a>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
