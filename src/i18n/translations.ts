@@ -31,7 +31,7 @@ export const translations = {
     },
     // Tours
     tours: {
-      title: "Nossos Tours",
+      title: "Tours",
       subtitle: "Explore as melhores experiências na região de Lisboa e arredores",
       bookNow: "Reservar Agora",
       fullDay: "Full day",
