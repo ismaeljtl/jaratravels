@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +19,40 @@ interface BookingRequest {
   paymentMethod: string;
   message?: string;
   website?: string; // Honeypot field
+}
+
+async function sendEmailViaSMTP(to: string, subject: string, html: string): Promise<void> {
+  const smtpUser = Deno.env.get("SMTP_USER");
+  const smtpPassword = Deno.env.get("SMTP_PASSWORD");
+
+  if (!smtpUser || !smtpPassword) {
+    throw new Error("SMTP credentials not configured");
+  }
+
+  const client = new SMTPClient({
+    connection: {
+      hostname: "smtp-mail.outlook.com",
+      port: 587,
+      tls: true,
+      auth: {
+        username: smtpUser,
+        password: smtpPassword,
+      },
+    },
+  });
+
+  try {
+    await client.send({
+      from: smtpUser,
+      to: to,
+      subject: subject,
+      content: "Please view this email in an HTML-compatible client.",
+      html: html,
+    });
+    console.log("Email sent successfully via SMTP to:", to);
+  } finally {
+    await client.close();
+  }
 }
 
 serve(async (req) => {
@@ -130,8 +165,7 @@ serve(async (req) => {
 
     // 7. Send email notifications (non-blocking)
     try {
-      const resendApiKey = Deno.env.get('RESEND_API_KEY');
-      const adminEmail = Deno.env.get('ADMIN_EMAIL');
+      const adminEmail = Deno.env.get('ADMIN_EMAIL') || Deno.env.get('SMTP_USER');
       
       // Payment details for customer email
       const bankIban = Deno.env.get('BANK_IBAN') || '';
@@ -243,51 +277,35 @@ serve(async (req) => {
         </div>
       `;
 
-      if (resendApiKey) {
-        // Send email to customer
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${resendApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            from: 'JaraTravels <onboarding@resend.dev>',
-            to: [body.email],
-            subject: `Confirmação de Reserva - ${body.serviceName}`,
-            html: customerEmailHtml,
-          }),
-        });
-        console.log('Customer confirmation email sent to:', body.email);
+      // Send email to customer
+      await sendEmailViaSMTP(
+        body.email,
+        `Confirmação de Reserva - ${body.serviceName}`,
+        customerEmailHtml
+      );
+      console.log('Customer confirmation email sent to:', body.email);
 
-        // Send notification to admin
-        if (adminEmail) {
-          await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${resendApiKey}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              from: 'JaraTravels Reservas <onboarding@resend.dev>',
-              to: [adminEmail],
-              subject: `Nova Reserva: ${body.serviceName} - ${body.name}`,
-              html: `
-                <h2>Nova Reserva Recebida</h2>
-                <p><strong>Nome:</strong> ${body.name}</p>
-                <p><strong>Email:</strong> ${body.email}</p>
-                <p><strong>Telefone:</strong> ${body.phone}</p>
-                <p><strong>Serviço:</strong> ${body.serviceName}</p>
-                <p><strong>Preço:</strong> ${body.servicePrice}</p>
-                <p><strong>Data:</strong> ${formattedDate}</p>
-                <p><strong>Participantes:</strong> ${body.participants}</p>
-                <p><strong>Método de Pagamento:</strong> ${getPaymentMethodLabel(body.paymentMethod)}</p>
-                ${body.message ? `<p><strong>Mensagem:</strong> ${body.message}</p>` : ''}
-              `,
-            }),
-          });
-          console.log('Admin notification email sent');
-        }
+      // Send notification to admin
+      if (adminEmail) {
+        const adminEmailHtml = `
+          <h2>Nova Reserva Recebida</h2>
+          <p><strong>Nome:</strong> ${body.name}</p>
+          <p><strong>Email:</strong> ${body.email}</p>
+          <p><strong>Telefone:</strong> ${body.phone}</p>
+          <p><strong>Serviço:</strong> ${body.serviceName}</p>
+          <p><strong>Preço:</strong> ${body.servicePrice}</p>
+          <p><strong>Data:</strong> ${formattedDate}</p>
+          <p><strong>Participantes:</strong> ${body.participants}</p>
+          <p><strong>Método de Pagamento:</strong> ${getPaymentMethodLabel(body.paymentMethod)}</p>
+          ${body.message ? `<p><strong>Mensagem:</strong> ${body.message}</p>` : ''}
+        `;
+        
+        await sendEmailViaSMTP(
+          adminEmail,
+          `Nova Reserva: ${body.serviceName} - ${body.name}`,
+          adminEmailHtml
+        );
+        console.log('Admin notification email sent');
       }
     } catch (emailError) {
       console.error('Failed to send email notifications:', emailError);
