@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -29,19 +29,16 @@ async function sendEmailViaSMTP(to: string, subject: string, html: string): Prom
     throw new Error("SMTP credentials not configured");
   }
 
-  const client = new SMTPClient({
-    connection: {
-      hostname: "smtp-mail.outlook.com",
-      port: 587,
-      tls: true,
-      auth: {
-        username: smtpUser,
-        password: smtpPassword,
-      },
-    },
-  });
+  const client = new SmtpClient();
 
   try {
+    await client.connectTLS({
+      hostname: "smtp.office365.com",
+      port: 587,
+      username: smtpUser,
+      password: smtpPassword,
+    });
+
     await client.send({
       from: smtpUser,
       to: to,
