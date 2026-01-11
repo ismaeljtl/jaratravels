@@ -378,8 +378,8 @@ const Confirmation = () => {
           <div className="text-center pt-6 border-t border-border/50">
             <p className="text-sm text-muted-foreground">
               {t.confirmation.needHelp}{" "}
-              <a href="mailto:info@jaratravels.com" className="text-primary hover:underline font-medium">
-                info@jaratravels.com
+              <a href="mailto:jaratravels@hotmail.com" className="text-primary hover:underline font-medium">
+                jaratravels@hotmail.com
               </a>{" "}
               {t.confirmation.orPhone}{" "}
               <a href="tel:+351123456789" className="text-primary hover:underline font-medium">
