@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -136,6 +135,40 @@ const getPaymentMethodLabel = (method: string) => {
   }
 };
 
+async function sendEmailViaSMTP(to: string, subject: string, html: string): Promise<void> {
+  const smtpUser = Deno.env.get("SMTP_USER");
+  const smtpPassword = Deno.env.get("SMTP_PASSWORD");
+
+  if (!smtpUser || !smtpPassword) {
+    throw new Error("SMTP credentials not configured");
+  }
+
+  const client = new SMTPClient({
+    connection: {
+      hostname: "smtp-mail.outlook.com",
+      port: 587,
+      tls: true,
+      auth: {
+        username: smtpUser,
+        password: smtpPassword,
+      },
+    },
+  });
+
+  try {
+    await client.send({
+      from: smtpUser,
+      to: to,
+      subject: subject,
+      content: "Please view this email in an HTML-compatible client.",
+      html: html,
+    });
+    console.log("Email sent successfully via SMTP to:", to);
+  } finally {
+    await client.close();
+  }
+}
+
 const handler = async (req: Request): Promise<Response> => {
   console.log("Received booking notification request");
 
@@ -247,31 +280,15 @@ const handler = async (req: Request): Promise<Response> => {
       </div>
     `;
 
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from: "JaraTravels Reservas <onboarding@resend.dev>",
-        to: ["jaratravels@hotmail.com"],
-        subject: `Nova Reserva: ${safeServiceName} - ${safeName}`,
-        html: emailHtml,
-      }),
-    });
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || Deno.env.get("SMTP_USER");
+    
+    await sendEmailViaSMTP(
+      adminEmail!,
+      `Nova Reserva: ${safeServiceName} - ${safeName}`,
+      emailHtml
+    );
 
-    if (!res.ok) {
-      const error = await res.text();
-      console.error("Resend API error:", error);
-      return new Response(
-        JSON.stringify({ error: "Failed to process booking. Please try again." }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
-    }
-
-    const data = await res.json();
-    console.log("Email sent successfully for booking:", booking.email);
+    console.log("Notification email sent successfully for booking:", booking.email);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
