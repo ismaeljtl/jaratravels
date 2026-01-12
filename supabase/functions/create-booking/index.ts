@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+import { Resend } from "https://esm.sh/resend@2.0.0?target=deno";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -21,34 +21,26 @@ interface BookingRequest {
   website?: string; // Honeypot field
 }
 
+// NOTE: Hotmail/Outlook SMTP is unreliable/blocked in serverless runtimes.
+// We use Resend API here so notifications reliably reach your inbox.
 async function sendEmailViaSMTP(to: string, subject: string, html: string): Promise<void> {
-  const smtpUser = Deno.env.get("SMTP_USER");
-  const smtpPassword = Deno.env.get("SMTP_PASSWORD");
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  if (!resendApiKey) throw new Error("RESEND_API_KEY not configured");
 
-  if (!smtpUser || !smtpPassword) {
-    throw new Error("SMTP credentials not configured");
-  }
+  const resend = new Resend(resendApiKey);
 
-  const client = new SmtpClient();
+  const emailResponse = await resend.emails.send({
+    from: "JaraTravels <onboarding@resend.dev>",
+    to: [to],
+    subject,
+    html,
+  });
 
-  try {
-    await client.connectTLS({
-      hostname: "smtp.office365.com",
-      port: 587,
-      username: smtpUser,
-      password: smtpPassword,
-    });
+  console.log("Email sent successfully via Resend to:", to, emailResponse);
 
-    await client.send({
-      from: smtpUser,
-      to: to,
-      subject: subject,
-      content: "Please view this email in an HTML-compatible client.",
-      html: html,
-    });
-    console.log("Email sent successfully via SMTP to:", to);
-  } finally {
-    await client.close();
+  const maybeError = (emailResponse as any)?.error;
+  if (maybeError) {
+    throw new Error(maybeError?.message || "Resend email send failed");
   }
 }
 
