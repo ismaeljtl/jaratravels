@@ -154,7 +154,8 @@ serve(async (req) => {
 
     // 7. Send email notifications (non-blocking)
     try {
-      const adminEmail = Deno.env.get('ADMIN_EMAIL') || Deno.env.get('SMTP_USER');
+      // Use jaratravels@hotmail.com directly - Resend free tier only allows sending to the account owner email
+      const adminEmail = 'jaratravels@hotmail.com';
       
       // Payment details for customer email
       const bankIban = Deno.env.get('BANK_IBAN') || '';
@@ -266,27 +267,48 @@ serve(async (req) => {
         </div>
       `;
 
-      // Send email to customer
-      await sendEmailViaSMTP(
-        body.email,
-        `Confirmação de Reserva - ${body.serviceName}`,
-        customerEmailHtml
-      );
-      console.log('Customer confirmation email sent to:', body.email);
-
-      // Send notification to admin
+      // Only send notification to admin (Resend free tier only allows sending to verified email)
       if (adminEmail) {
         const adminEmailHtml = `
-          <h2>Nova Reserva Recebida</h2>
-          <p><strong>Nome:</strong> ${body.name}</p>
-          <p><strong>Email:</strong> ${body.email}</p>
-          <p><strong>Telefone:</strong> ${body.phone}</p>
-          <p><strong>Serviço:</strong> ${body.serviceName}</p>
-          <p><strong>Preço:</strong> ${body.servicePrice}</p>
-          <p><strong>Data:</strong> ${formattedDate}</p>
-          <p><strong>Participantes:</strong> ${body.participants}</p>
-          <p><strong>Método de Pagamento:</strong> ${getPaymentMethodLabel(body.paymentMethod)}</p>
-          ${body.message ? `<p><strong>Mensagem:</strong> ${body.message}</p>` : ''}
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h1 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
+              🎉 Nova Reserva Recebida!
+            </h1>
+            
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="margin-top: 0; color: #334155;">Detalhes do Cliente</h2>
+              <p><strong>Nome:</strong> ${body.name}</p>
+              <p><strong>Email:</strong> <a href="mailto:${body.email}">${body.email}</a></p>
+              <p><strong>Telefone:</strong> <a href="tel:${body.phone}">${body.phone}</a></p>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="margin-top: 0; color: #334155;">Detalhes da Reserva</h2>
+              <p><strong>Serviço:</strong> ${body.serviceName}</p>
+              <p><strong>Preço:</strong> ${body.servicePrice}</p>
+              <p><strong>Duração:</strong> ${body.serviceDuration}</p>
+              <p><strong>Data:</strong> ${formattedDate}</p>
+              <p><strong>Participantes:</strong> ${body.participants} pessoa(s)</p>
+              <p><strong>Método de Pagamento:</strong> ${getPaymentMethodLabel(body.paymentMethod)}</p>
+            </div>
+            
+            ${body.message ? `
+            <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="margin-top: 0; color: #92400e;">Mensagem do Cliente</h2>
+              <p>${body.message}</p>
+            </div>
+            ` : ''}
+            
+            <div style="background: #dbeafe; padding: 15px; border-radius: 8px; margin-top: 20px;">
+              <p style="margin: 0; color: #1e40af;">
+                <strong>Próximos passos:</strong> Confirma a disponibilidade e responde ao cliente por email ou telefone.
+              </p>
+            </div>
+            
+            <p style="color: #64748b; font-size: 12px; margin-top: 30px; text-align: center;">
+              Este email foi enviado automaticamente pelo sistema de reservas da JaraTravels.
+            </p>
+          </div>
         `;
         
         await sendEmailViaSMTP(
@@ -294,7 +316,7 @@ serve(async (req) => {
           `Nova Reserva: ${body.serviceName} - ${body.name}`,
           adminEmailHtml
         );
-        console.log('Admin notification email sent');
+        console.log('Admin notification email sent to:', adminEmail);
       }
     } catch (emailError) {
       console.error('Failed to send email notifications:', emailError);
