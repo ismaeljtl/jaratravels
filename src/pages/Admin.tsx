@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, RefreshCw, Trash2, Calendar, Users, Mail, Phone, MessageSquare, LogOut } from "lucide-react";
+import { ArrowLeft, RefreshCw, Trash2, Calendar, Users, Mail, Phone, MessageSquare, LogOut, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -45,6 +45,7 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [accessDenied, setAccessDenied] = useState(false);
 
   // Redirect to auth if not logged in
   useEffect(() => {
@@ -73,6 +74,9 @@ const Admin = () => {
           toast.error("Sessão expirada. Por favor, faça login novamente.");
           await signOut();
           navigate("/auth");
+        } else if (data?.error === "Forbidden - Admin access only") {
+          setAccessDenied(true);
+          toast.error("Acesso negado. Esta conta não tem permissões de administrador.");
         } else {
           toast.error("Erro ao carregar reservas");
         }
@@ -186,6 +190,40 @@ const Admin = () => {
   // Don't render if not authenticated
   if (!user) {
     return null;
+  }
+
+  // Show access denied message
+  if (accessDenied) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center">
+              <Lock className="w-6 h-6 text-destructive" />
+            </div>
+            <CardTitle>Acesso Negado</CardTitle>
+            <CardDescription>
+              A conta <span className="font-medium">{user.email}</span> não tem permissões de administrador.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground text-center">
+              Por favor, contacte o administrador do sistema para obter acesso.
+            </p>
+            <div className="flex flex-col gap-2">
+              <Button onClick={handleLogout} variant="outline" className="w-full">
+                <LogOut className="w-4 h-4 mr-2" />
+                Sair e usar outra conta
+              </Button>
+              <Button onClick={() => navigate("/")} variant="ghost" className="w-full">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar ao Início
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
