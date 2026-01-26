@@ -86,7 +86,7 @@ export const translations = {
     about: {
       badge: "Sobre Nós",
       title: "Criamos Experiências de Viagem Memoráveis",
-      description1: "A JaraTravels é especializada em criar experiências de viagem únicas e inesquecíveis. Trabalhamos com pequenos grupos de forma intimista e mais local. Com anos de experiência no setor do turismo, oferecemos serviços de qualidade superior e atenção personalizada a cada cliente.",
+      description1: "A JaraTravels é uma empresa de animação turística especializada em criar experiências de viagem únicas e inesquecíveis. Trabalhamos com o acompanhamento de pequenos grupos de forma intimista e mais local. Com anos de experiência no setor do turismo, oferecemos serviços de qualidade superior e atenção personalizada a cada cliente.",
       description2: "Trabalhamos em parceria com plataformas líderes como a GetYourGuide para garantir as melhores experiências e facilidade nas reservas.",
       registration: "Empresa registrada no RNAAT Nº598/2025 - Turismo de Portugal",
       features: [
@@ -523,7 +523,7 @@ export const translations = {
     about: {
       badge: "About Us",
       title: "We Create Memorable Travel Experiences",
-      description1: "JaraTravels specializes in creating unique and unforgettable travel experiences. We work with small groups in an intimate and local way. With years of experience in the tourism sector, we offer superior quality services and personalized attention to each client.",
+      description1: "JaraTravels is a tourist entertainment company specialized in creating unique and unforgettable travel experiences. We work with small groups in an intimate and local way. With years of experience in the tourism sector, we offer superior quality services and personalized attention to each client.",
       description2: "We partner with leading platforms like GetYourGuide to ensure the best experiences and easy bookings.",
       registration: "Company registered with RNAAT Nº598/2025 - Tourism of Portugal",
       features: [
@@ -960,7 +960,7 @@ export const translations = {
     about: {
       badge: "Sobre Nosotros",
       title: "Creamos Experiencias de Viaje Memorables",
-      description1: "JaraTravels se especializa en crear experiencias de viaje únicas e inolvidables. Trabajamos con pequeños grupos de forma íntima y local. Con años de experiencia en el sector turístico, ofrecemos servicios de calidad superior y atención personalizada a cada cliente.",
+      description1: "JaraTravels es una empresa de entretenimiento turístico especializada en crear experiencias de viaje únicas e inolvidables. Trabajamos con el acompañamiento de pequeños grupos de forma íntima y local. Con años de experiencia en el sector turístico, ofrecemos servicios de calidad superior y atención personalizada a cada cliente.",
       description2: "Trabajamos en asociación con plataformas líderes como GetYourGuide para garantizar las mejores experiencias y facilidad en las reservas.",
       registration: "Empresa registrada en RNAAT Nº598/2025 - Turismo de Portugal",
       features: [
