@@ -36,7 +36,7 @@ const Partnership = () => {
           <Button 
             size="lg" 
             className="mt-12 bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-            onClick={() => window.open('https://www.getyourguide.com', '_blank')}
+            onClick={() => window.open('https://www.getyourguide.com/pt-pt/distrito-de-setubal-l32357/seixal-caminhada-guiada-a-pe-com-pastel-de-nata-t1019834/?preview=7EBVJMHP4JO79UALC5RTP2IRYEDQU33D', '_blank')}
           >
             Visitar GetYourGuide
             <ExternalLink className="ml-2 w-5 h-5" />
