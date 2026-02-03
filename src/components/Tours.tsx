@@ -21,7 +21,7 @@ const tourData = [
   { price: 20, duration: "1h30", category: "photography", image: tourInstaxImg },
   { price: 35, duration: "2h", category: "historical", image: seixalMedievalImg },
   { price: 50, duration: "3h", category: "maritime", image: boatripSeixalImg },
-  { price: 60, duration: "3h", category: "nature", image: sesimbraEmotionImg },
+  { price: 70, duration: "3h", category: "nature", image: sesimbraEmotionImg },
   { price: 80, duration: "4h", category: "nature", image: setubalArrabidaImg },
   { price: 80, duration: "4h", category: "gastronomy", image: azeitaoVineyardImg },
   { price: 60, duration: "4h", fullDayPrice: 120, category: "cultural", image: almadaCristoReiImg },

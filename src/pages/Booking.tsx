@@ -73,7 +73,7 @@ const services = [
     id: "sesimbra-emotion",
     name: "Sesimbra Emotion",
     description: "Unique experience in Sado River to watch dolphins",
-    price: "60€",
+    price: "70€",
     duration: "3h",
     included: [
       "Observation of Dolphins, birds, fauna and flora",
