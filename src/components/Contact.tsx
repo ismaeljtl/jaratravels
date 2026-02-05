@@ -6,9 +6,11 @@ import { Mail, MapPin, Instagram } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,10 +18,27 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success(t.contact.successMessage);
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-message', {
+        body: formData,
+      });
+
+      if (error || data?.error) {
+        toast.error(data?.error || "Erro ao enviar mensagem. Tente novamente.");
+        return;
+      }
+
+      toast.success(t.contact.successMessage);
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -88,8 +107,8 @@ const Contact = () => {
                     className="border-input resize-none"
                   />
                 </div>
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                  {t.contact.send}
+                <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                  {isSubmitting ? "A enviar..." : t.contact.send}
                 </Button>
               </form>
             </CardContent>
