@@ -24,12 +24,14 @@ Una plataforma moderna de reservas de tours y experiencias construida con React,
 ## 🔧 Instalación Local
 
 ### 1. Clonar el repositorio
+
 ```bash
 git clone https://github.com/tu-usuario/jaratravels.git
 cd jaratravels
 ```
 
 ### 2. Instalar dependencias
+
 ```bash
 npm install
 ```
@@ -37,11 +39,13 @@ npm install
 ### 3. Configurar variables de entorno
 
 Copia el archivo `.env.example` a `.env`:
+
 ```bash
 cp .env.example .env
 ```
 
 Luego rellena los valores en `.env`:
+
 ```dotenv
 VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=tu-anon-key
@@ -50,6 +54,7 @@ VITE_TURNSTILE_SITE_KEY=tu-turnstile-key
 ```
 
 ### 4. Iniciar servidor de desarrollo
+
 ```bash
 npm run dev
 ```
@@ -104,6 +109,7 @@ Vercel desplegará automáticamente tu proyecto. Si haces push a `main`, se desp
 ### Funciones Serverless
 
 Las funciones Deno en `supabase/functions/` manejan:
+
 - Envío de emails (contacto y reservas)
 - Crear reservas
 - Gestión de admin
@@ -111,6 +117,7 @@ Las funciones Deno en `supabase/functions/` manejan:
 - Traducción de textos
 
 Para desplegar en Supabase:
+
 ```bash
 # Instalar CLI de Supabase (si no lo tienes)
 npm install -g supabase
@@ -131,12 +138,14 @@ La estructura de la BD se define en las migraciones en `supabase/migrations/`. S
 4. Añade `RESEND_API_KEY` con tu key de Resend
 
 Repite este proceso para:
+
 - `TURNSTILE_SITE_KEY` y `TURNSTILE_SECRET_KEY` (Cloudflare)
 - Credenciales de pago (BANK_IBAN, etc.)
 
 ## 🌍 Idiomas Soportados
 
 La aplicación soporta:
+
 - Português (PT)
 - English (EN)
 - Español (ES)
@@ -185,6 +194,7 @@ Para soporte, contacta a: jaratravels@hotmail.com
 ---
 
 **Última actualización:** Febrero 2026
+
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
 ## What technologies are used for this project?
