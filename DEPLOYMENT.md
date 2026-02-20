@@ -275,22 +275,26 @@ TURNSTILE_SECRET_KEY = tu-turnstile-secret-key
 ## 🐛 Troubleshooting
 
 ### "VITE_SUPABASE_URL is not defined"
+
 - Asegúrate que las variables de entorno están en Vercel
 - Verifica los nombres: deben empezar con `VITE_`
 - Trigger un nuevo deploy después de añadir variables
 
 ### "Cannot reach Supabase"
+
 - Verifica que la URL es correcta
 - Comprueba en Supabase Settings → API
 - Revisa firewall/CORS si es necesario
 
 ### "Envío de emails no funciona"
+
 - Verifica RESEND_API_KEY en Supabase Secrets
 - Comprueba que el email admin es correcto
 - En desarrollo, ve a Resend dashboard para ver logs
 
 ### "Turnstile no funciona"
-- Verifica Site Key en Vercel (VITE_)
+
+- Verifica Site Key en Vercel (VITE\_)
 - Verifica Secret Key en Supabase Secrets
 - Comprueba que el dominio coincide con lo registrado en Turnstile
 
@@ -309,6 +313,7 @@ TURNSTILE_SECRET_KEY = tu-turnstile-secret-key
 ## 📞 Soporte
 
 Para problemas:
+
 1. Consulta el README.md
 2. Revisa los logs en Vercel → **Functions** o Supabase → **Logs**
 3. Contacta al soporte de cada servicio
